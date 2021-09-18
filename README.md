@@ -9,6 +9,7 @@
 |<a href="#empty">empty</a>|检验工具类|
 |<a href="#exception">exception</a>|异常|
 |<a href="#id">id</a>|唯一id生成器|
+|<a href="#ip">ip</a>|ip工具类|
 |<a href="#model">model</a>|常用实体类|
 |<a href="#redisson">redisson</a>|延迟队列|
 |<a href="#scheduler">scheduler</a>|动态定时任务|
@@ -62,6 +63,14 @@
 | --- | --- |
 |IdGen|雪花算法的基础生成（不对外）|
 |SequenceUtil|唯一id工具类（对外）|
+
+***
+
+## <a id="ip">ip-ip工具类</a>
+
+| 类名 | 功能 |
+| --- | --- |
+|IpUtil|获取ip|
 
 ***
 
