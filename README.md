@@ -8,7 +8,7 @@
 |empty|检验工具类|
 |exception|异常|
 |id|唯一id生成器|
-|model|常用实体类|
+|model|常用实体类(#model)|
 |Redisson|延迟队列|
 |scheduler|动态定时任务|
 |sign|加密|
@@ -35,3 +35,21 @@
 | --- | --- |
 |EmptyUtil|空校验|
 |ValidUtils|数据格式校验，手机号，身份证，邮箱，汉字，ip等等|
+
+***
+
+## exception-异常
+
+| 类名 | 功能 |
+| --- | --- |
+|ApiException|自定义异常|
+|GlobalExceptionHandler|异常拦截，统一返回ApiResponse|
+
+***
+
+## <a id="model">model-常用实体类</a>
+
+| 类名 | 功能 |
+| --- | --- |
+|IdGen|雪花算法的基础生成（不对外）|
+|SequenceUtil|唯一id工具类（对外）|
