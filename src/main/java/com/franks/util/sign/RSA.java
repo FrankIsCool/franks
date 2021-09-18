@@ -211,7 +211,6 @@ public class RSA {
      * @throws Exception 加密异常
      */
     public static PrivateKey getPrivateKey(String key) throws Exception {
-
         byte[] keyBytes;
         keyBytes = Base64.decode(key);
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
