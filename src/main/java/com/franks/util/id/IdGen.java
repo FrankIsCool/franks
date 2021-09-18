@@ -3,13 +3,13 @@ package com.franks.util.id;
 
 import com.franks.util.date.DateProperties;
 import com.franks.util.date.StrDateUtil;
-
 /**
- * 生成id
- * 每毫秒可产生4096不同id
- * 最多可以使用69.73年
+ * 唯一id生产工具类
  *
- * @author chendehua
+ *  每毫秒可产生4096不同id
+ *  最多可以使用69.73年
+ * @author frank
+ * @date 2021/9/18 10:09
  */
 public class IdGen {
     //机器节点
@@ -68,7 +68,12 @@ public class IdGen {
         this.datacenterId = datacenterId;
     }
 
-    //每毫秒4096个id，可使用69年
+    /**
+     * 每毫秒4096个id，可使用69年
+     *
+     * @Author frank
+     * @Date  2021/9/18 10:10
+     */
     public synchronized long getId() {
         //获取当前毫秒数
         long timestamp = timeGen();
@@ -99,7 +104,12 @@ public class IdGen {
                 | (workerId << workerIdShift) | sequence;
     }
 
-    //每毫秒4096个id，使用年份不受限制
+    /**
+     * 每毫秒4096个id，不限制年数
+     *
+     * @Author frank
+     * @Date  2021/9/18 10:10
+     */
     public synchronized String getSn() {
         //获取当前毫秒数
         long timestamp = timeGen();
