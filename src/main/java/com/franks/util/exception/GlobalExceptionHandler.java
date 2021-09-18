@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -28,7 +29,7 @@ public class GlobalExceptionHandler {
     final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
-     * 参数错误异常处理
+     * 参数错误异常处理-post
      *
      * @param request
      * @param exception
@@ -38,6 +39,23 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ApiResponse argumentErrorHandler(HttpServletRequest request, MethodArgumentNotValidException exception) {
         Map<String, String> mapErrFields = new HashMap<>();
+        for (FieldError err : exception.getBindingResult().getFieldErrors()) {
+            mapErrFields.put(err.getField(), err.getDefaultMessage());
+        }
+        return ApiResponse.of(600, "请求的参数有误: " + mapErrFields.values(), mapErrFields);
+    }
+
+    /**
+     * 参数错误异常处理-get
+     *
+     * @param request
+     * @param exception
+     * @return
+     */
+    @ExceptionHandler(BindException.class)
+    @ResponseBody
+    public ApiResponse BindExceptionHandler(HttpServletRequest request, BindException exception) {
+        Map<String, String> mapErrFields = new HashMap<String, String>();
         for (FieldError err : exception.getBindingResult().getFieldErrors()) {
             mapErrFields.put(err.getField(), err.getDefaultMessage());
         }
