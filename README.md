@@ -12,6 +12,7 @@
 |<a href="#ip">ip</a>|ip工具类|
 |<a href="#lock">lock</a>|分布式锁|
 |<a href="#model">model</a>|常用实体类|
+|<a href="#redis">redis</a>|redis工具类|
 |<a href="#redisson">redisson</a>|延迟队列|
 |<a href="#scheduler">scheduler</a>|动态定时任务|
 |<a href="#sign">sign</a>|加密|
@@ -88,10 +89,11 @@
 
 //key传方法名，只能同时处理一条，传其他动态参数，只有满足key冲突的才会拦截
 @DistributedLocks(key = "importSchool")
-public void importSchool(MultipartFile excelFile) {
+public void importSchool(MultipartFile excelFile){
     //业务处理
 }
 ```
+
 ***
 
 ## <a id="model">model-常用实体类</a>
@@ -100,6 +102,15 @@ public void importSchool(MultipartFile excelFile) {
 | --- | --- |
 |ApiResponse|统一返回实体类|
 |PageVo|分页实体类|
+
+***
+
+## <a id="redis">redis-redis工具类</a>
+
+| 类名 | 功能 |
+| --- | --- |
+|RedisConfig|redis配置|
+|RedisUtils|redis基础工具|
 
 ***
 
