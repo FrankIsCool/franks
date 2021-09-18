@@ -4,6 +4,7 @@
 
 | 包名 | 功能 |
 | --- | --- |
+|<a href="#context">context</a>|上下文工具类|
 |<a href="#date">date</a>|日期工具类|
 |<a href="#empty">empty</a>|检验工具类|
 |<a href="#exception">exception</a>|异常|
@@ -13,6 +14,14 @@
 |<a href="#scheduler">scheduler</a>|动态定时任务|
 |<a href="#sign">sign</a>|加密|
 |<a href="#str">str</a>|字符串工具类|
+
+***
+
+## <a id="context">context-上下文工具类</a>
+
+| 类名 | 功能 |
+| --- | --- |
+|SpringContextUtil|获取对象|
 
 ***
 
@@ -73,6 +82,24 @@
 |RedisDelayedQueueInit|监听延迟队列初始化|
 |RedisDelayedQueueListener|监听延迟队列统一接口|
 
+### 使用示例
+
+```java
+
+@Component
+public class PayQCordListener implements RedisDelayedQueueListener<PayStateReqVO> {
+
+    private final Logger logger = LoggerFactory.getLogger(PayQCordListener.class);
+
+    @Override
+    public void invoke(PayStateReqVO payStateReqVO) {
+        logger.info("支付二维码-延迟失效,内容:{}", payStateReqVO);
+        //处理业务
+        logger.info("支付二维码-延迟失效,内容:{},处理结果:{}", payStateReqVO, respDTO);
+    }
+}
+```
+
 ***
 
 ## <a id="scheduler">scheduler-动态定时任务</a>
@@ -82,6 +109,26 @@
 |DynamicScheduledTask|新增动态定时任务|
 |SchedulerBaseVo|创建动态定时任务基础实体|
 |SchedulerConfig|动态定时任务初始化|
+
+### 使用示例
+
+```java
+
+@Component
+public class PayQCordJob implements Job {
+
+    private final Logger logger = LoggerFactory.getLogger(PayQCordJob.class);
+
+    @Override
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        PayStateReqVO payStateReqVO = (PayStateReqVO) context.getJobDetail().getJobDataMap().get(PayStateReqVO.class.getName());
+        logger.info("支付二维码-定时失效,内容:{}", payStateReqVO);
+        //处理业务，特别注意，此处需要通过SpringContextUtil获取对象， @Autowired注解无用       
+        //比如：(PayService) SpringContextUtil.getBeanByClass(PayService.class);        
+        logger.info("支付二维码-定时失效,内容:{},处理结果:{}", payStateReqVO, respDTO);
+    }
+}
+```
 
 ***
 
