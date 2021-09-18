@@ -8,7 +8,7 @@
 |empty|检验工具类|
 |exception|异常|
 |id|唯一id生成器|
-|model|常用实体类(#model)|
+|<a href="#model">model</a>|常用实体类|
 |Redisson|延迟队列|
 |scheduler|动态定时任务|
 |sign|加密|
