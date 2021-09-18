@@ -65,6 +65,7 @@
 | --- | --- |
 |IdGen|雪花算法的基础生成（不对外）|
 |SequenceUtil|唯一id工具类（对外）|
+|IdRedisUtils|利用Redis生成唯一id|
 
 ***
 
@@ -90,8 +91,8 @@
 //key传方法名，只能同时处理一条，传其他动态参数，只有满足key冲突的才会拦截
 @DistributedLocks(key = "importSchool")
 public void importSchool(MultipartFile excelFile){
-    //业务处理
-}
+        //业务处理
+        }
 ```
 
 ***
@@ -164,7 +165,7 @@ public class PayQCordJob implements Job {
         PayStateReqVO payStateReqVO = (PayStateReqVO) context.getJobDetail().getJobDataMap().get(PayStateReqVO.class.getName());
         logger.info("支付二维码-定时失效,内容:{}", payStateReqVO);
         //处理业务，特别注意，此处需要通过SpringContextUtil获取对象， @Autowired注解无用       
-        //比如：(PayService) SpringContextUtil.getBeanByClass(PayService.class);        
+        //比如：SpringContextUtil.getBean(PayService.class);        
         logger.info("支付二维码-定时失效,内容:{},处理结果:{}", payStateReqVO, respDTO);
     }
 }
