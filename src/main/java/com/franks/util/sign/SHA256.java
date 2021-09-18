@@ -1,6 +1,6 @@
 package com.franks.util.sign;
 
-import com.sxmaps.pay.paycore.common.util.str.StringUtils;
+import com.franks.util.str.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 
 
@@ -17,7 +17,7 @@ public class SHA256 {
     public static String sign(String text, String key, String input_charset) {
         //拼接key
         text = text + key;
-        return DigestUtils.sha256Hex(  StringUtils.getContentBytes(text, input_charset));
+        return DigestUtils.sha256Hex(StringUtils.getContentBytes(text, input_charset));
     }
 
 

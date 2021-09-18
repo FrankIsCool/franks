@@ -4,19 +4,19 @@
 
 | 包名 | 功能 |
 | --- | --- |
-|date|日期工具类|
-|empty|检验工具类|
-|exception|异常|
-|id|唯一id生成器|
+|<a href="#date">date</a>|日期工具类|
+|<a href="#empty">empty</a>|检验工具类|
+|<a href="#exception">exception</a>|异常|
+|<a href="#id">id</a>|唯一id生成器|
 |<a href="#model">model</a>|常用实体类|
-|Redisson|延迟队列|
-|scheduler|动态定时任务|
-|sign|加密|
-|str|字符串|
+|<a href="#redisson">redisson</a>|延迟队列|
+|<a href="#scheduler">scheduler</a>|动态定时任务|
+|<a href="#sign">sign</a>|加密|
+|<a href="#str">str</a>|字符串工具类|
 
 ***
 
-## date-日期工具类
+## <a id="date">date-日期工具类</a>
 
 | 类名 | 功能 |
 | --- | --- |
@@ -29,7 +29,7 @@
 
 ***
 
-## empty-检验工具类
+## <a id="empty">empty-检验工具类</a>
 
 | 类名 | 功能 |
 | --- | --- |
@@ -38,7 +38,7 @@
 
 ***
 
-## exception-异常
+## <a id="exception">exception-异常</a>
 
 | 类名 | 功能 |
 | --- | --- |
@@ -47,9 +47,60 @@
 
 ***
 
-## <a id="model">model-常用实体类</a>
+## <a id="id">id-唯一id生成器</a>
 
 | 类名 | 功能 |
 | --- | --- |
 |IdGen|雪花算法的基础生成（不对外）|
 |SequenceUtil|唯一id工具类（对外）|
+
+***
+
+## <a id="model">model-常用实体类</a>
+
+| 类名 | 功能 |
+| --- | --- |
+|ApiResponse|统一返回实体类|
+|PageVo|分页实体类|
+
+***
+
+## <a id="redisson">redisson-延迟队列</a>
+
+| 类名 | 功能 |
+| --- | --- |
+|RedisDelayedQueue|新增延迟队列|
+|RedisDelayedQueueInit|监听延迟队列初始化|
+|RedisDelayedQueueListener|监听延迟队列统一接口|
+
+***
+
+## <a id="scheduler">scheduler-动态定时任务</a>
+
+| 类名 | 功能 |
+| --- | --- |
+|DynamicScheduledTask|新增动态定时任务|
+|SchedulerBaseVo|创建动态定时任务基础实体|
+|SchedulerConfig|动态定时任务初始化|
+
+***
+
+## <a id="sign">sign-加密</a>
+
+| 类名 | 功能 |
+| --- | --- |
+|Base64|Base64工具类|
+|MD5|MD5加密解密工具类|
+|RSA|RSA加密解密工具类|
+|RSA2|RSA2加密解密工具类|
+|SHA1|SHA1加密解密工具类|
+|SHA256|SHA256加密解密工具类|
+|SignUtils|同一封装加密工具类|
+
+***
+
+## <a id="str">str-字符串工具类</a>
+
+| 类名 | 功能 |
+| --- | --- |
+|StringUtils|字符串工具类|

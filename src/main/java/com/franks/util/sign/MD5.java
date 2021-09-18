@@ -1,7 +1,7 @@
 package com.franks.util.sign;
 
 
-import com.sxmaps.pay.paycore.common.util.str.StringUtils;
+import com.franks.util.str.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import static com.franks.util.str.StringUtils.getContentBytes;
@@ -39,8 +39,6 @@ public class MD5 {
         //判断是否一样
         return StringUtils.equals(sign(text, key, input_charset).toUpperCase(), sign.toUpperCase());
     }
-
-
 
 
 }
