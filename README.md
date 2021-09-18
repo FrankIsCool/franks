@@ -10,6 +10,7 @@
 |<a href="#exception">exception</a>|异常|
 |<a href="#id">id</a>|唯一id生成器|
 |<a href="#ip">ip</a>|ip工具类|
+|<a href="#lock">lock</a>|分布式锁|
 |<a href="#model">model</a>|常用实体类|
 |<a href="#redisson">redisson</a>|延迟队列|
 |<a href="#scheduler">scheduler</a>|动态定时任务|
@@ -72,6 +73,25 @@
 | --- | --- |
 |IpUtil|获取ip|
 
+***
+
+## <a id="lock">lock-分布式锁</a>
+
+| 类名 | 功能 |
+| --- | --- |
+|DistributedLocks|分布式锁注解|
+|DistributedLocksAspect|分布式锁拦截|
+
+### 使用示例
+
+```java
+
+//key传方法名，只能同时处理一条，传其他动态参数，只有满足key冲突的才会拦截
+@DistributedLocks(key = "importSchool")
+public void importSchool(MultipartFile excelFile) {
+    //业务处理
+}
+```
 ***
 
 ## <a id="model">model-常用实体类</a>

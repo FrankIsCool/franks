@@ -32,7 +32,7 @@ public class DistributedLocksAspect {
         String key = annotation.key();
         Object o = redisUtils.get(key);
         if (EmptyUtil.isNotEmpty(o)) {
-            throw new ApiException("当前有正在执行任务，请稍后再试");
+            throw new ApiException("当前有正在的执行任务，请稍后再试");
         }
         redisUtils.set(key, 1, ExpireTimeEnums.FIVE_MIN.getTime());
         Object proceed = null;
