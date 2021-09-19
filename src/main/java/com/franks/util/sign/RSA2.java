@@ -4,6 +4,13 @@ package com.franks.util.sign;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+/**
+ * RSA加密
+ * SHA256WithRSA
+ *
+ * @author frank
+ * @date 2021/9/19 15:31
+ */
 public class RSA2 {
 
     private static final String SIGN_SHA256RSA_ALGORITHMS = "SHA256WithRSA";

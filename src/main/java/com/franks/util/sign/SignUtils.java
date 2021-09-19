@@ -2,26 +2,17 @@ package com.franks.util.sign;
 
 
 import com.franks.util.empty.EmptyUtil;
-import com.franks.util.str.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.http.message.BasicNameValuePair;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 签名 工具
+ * 加密工具
  *
- * @author: bqzeng
- * <pre>
- *     date 2018/1/20
- *  </pre>
+ * @author frank
+ * @date 2021/9/19 15:30
  */
 public enum SignUtils {
 

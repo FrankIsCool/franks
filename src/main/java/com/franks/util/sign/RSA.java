@@ -14,6 +14,13 @@ import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+/**
+ * RSA加密
+ * SHA1WithRSA
+ *
+ * @author frank
+ * @date 2021/9/19 15:30
+ */
 public class RSA {
 
     private static final String ALGORITHM = "RSA";

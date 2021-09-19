@@ -15,6 +15,13 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 
+/**
+ * redis配置
+ *
+ * @module
+ * @author frank
+ * @date 2021/9/19 15:39
+ */
 @Configuration
 @EnableAutoConfiguration
 public class RedisConfig {

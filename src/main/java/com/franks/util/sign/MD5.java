@@ -8,7 +8,10 @@ import static com.franks.util.str.StringUtils.getContentBytes;
 
 
 /**
- * MD5签名工具
+ * MD5摘要
+ *
+ * @author frank
+ * @date 2021/9/19 15:30
  */
 public class MD5 {
 

@@ -5,7 +5,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 
 /**
- * SHA1签名工具
+ * SHA1签名
+ *
+ * @author frank
+ * @date 2021/9/19 15:31
  */
 public class SHA1 {
 

@@ -12,6 +12,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * redis工具
+ *
+ * @module
+ * @author frank
+ * @date 2021/9/19 15:40
+ */
 @SuppressWarnings("unchecked")
 @Component
 @Service

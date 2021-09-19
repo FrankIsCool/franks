@@ -3,7 +3,12 @@ package com.franks.util.sign;
 import com.franks.util.str.StringUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 
-
+/**
+ * SHA256签名
+ *
+ * @author frank
+ * @date 2021/9/19 15:32
+ */
 public class SHA256 {
 
     /**

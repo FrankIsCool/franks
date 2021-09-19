@@ -18,8 +18,6 @@
 //import org.apache.ibatis.session.RowBounds;
 //import org.apache.ibatis.type.TypeHandlerRegistry;
 //import org.springframework.stereotype.Component;
-//import org.springmad.common.constants.ApplicationProperties;
-//import org.springmad.encrypt.util.CryptUtils;
 //
 //import java.lang.reflect.Field;
 //import java.text.SimpleDateFormat;
@@ -41,9 +39,6 @@
 //@Slf4j
 //@AllArgsConstructor
 //public class DBInterceptor implements Interceptor {
-//
-//
-//    private final ApplicationProperties applicationProperties;
 //
 //    private static ThreadLocal<SimpleDateFormat> dateTimeFormatter = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 //
@@ -70,32 +65,29 @@
 //        Object returnValue = invocation.proceed();
 //
 //        try {
-//            if (applicationProperties.getMybatisUtil().getEncrypEnabled()) {
-//                if (returnValue instanceof ArrayList<?>) {
-//                    List<?> list = (ArrayList<?>) returnValue;
-//                    if (1 > list.size())
-//                        return returnValue;
-//                    Object obj = list.get(0);
-//                    if (null == obj)
-//                        return returnValue;
-//                    Field[] fields = obj.getClass().getDeclaredFields();
-//                    int len;
-//                    if (0 < (len = fields.length)) {
-//                        // 标记是否有解密注解
-//                        boolean isD = false;
-//                        for (int i = 0; i < len; i++) {
-//                            if (fields[i].isAnnotationPresent(DecryptField.class)) {
-//                                isD = true;
-//                                break;
-//                            }
+//            if (returnValue instanceof ArrayList<?>) {
+//                List<?> list = (ArrayList<?>) returnValue;
+//                if (1 > list.size())
+//                    return returnValue;
+//                Object obj = list.get(0);
+//                if (null == obj)
+//                    return returnValue;
+//                Field[] fields = obj.getClass().getDeclaredFields();
+//                int len;
+//                if (0 < (len = fields.length)) {
+//                    // 标记是否有解密注解
+//                    boolean isD = false;
+//                    for (int i = 0; i < len; i++) {
+//                        if (fields[i].isAnnotationPresent(DecryptField.class)) {
+//                            isD = true;
+//                            break;
 //                        }
-//                        // 将含有DecryptField注解的字段解密
-//                        if (isD)
-//                            list.forEach(CryptUtils::decryptField);
 //                    }
+//                    // 将含有DecryptField注解的字段解密
+//                    if (isD)
+//                        list.forEach(CryptUtils::decryptField);
 //                }
 //            }
-//
 //        } catch (Exception e) {
 //            // 打印异常，由于拦截器本身抛出异常，比如拦截到很奇葩的返回，应算正常
 //            log.info("抛出异常，正常返回==> " + e.getMessage());

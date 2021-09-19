@@ -24,7 +24,6 @@ public class EmptyUtil {
      * @Author frank
      * @Date 2021/9/18 11:18
      */
-
     public static boolean isNotEmpty(Object o) {
         if (o instanceof Integer || o instanceof Long) {
             return o != null;
