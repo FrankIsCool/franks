@@ -38,4 +38,11 @@ public class PageVo {
         }
         this.pageSize = pageSize;
     }
+    public static void clean(PageVo vo){
+        if(EmptyUtil.isEmpty(vo)){
+            return;
+        }
+        vo.setPageNum(null);
+        vo.setPageNum(null);
+    }
 }

@@ -34,14 +34,16 @@ public class ApiResponse<T> {
         this.text = text;
         this.data = data;
     }
+
     public static <T> ApiResponse<T> of(Integer code, String text, T data) {
         return new ApiResponse(code, text, data);
     }
+
     public static ApiResponse error(Integer code, String text) {
-        return new ApiResponse(code, text, null);
+        return of(code, text, null);
     }
 
     public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse(null, null, data);
+        return of(null, null, data);
     }
 }

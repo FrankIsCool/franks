@@ -1,6 +1,9 @@
 
 package com.franks.util.sign;
 
+
+import com.franks.util.exception.ApiException;
+
 import javax.crypto.Cipher;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -176,30 +179,33 @@ public class RSA {
      * @return 解密后的字符串
      * @throws Exception 解密异常
      */
-    public static String decrypt(String content, String privateKey, String characterEncoding) throws Exception {
-        PrivateKey prikey = getPrivateKey(privateKey);
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.DECRYPT_MODE, prikey);
-        InputStream ins = new ByteArrayInputStream(Base64.decode(content));
-        ByteArrayOutputStream writer = new ByteArrayOutputStream();
-        //rsa解密的字节大小最多是128，将需要解密的内容，按128位拆开解密
-        byte[] buf = new byte[128];
-        int bufl;
-        while ((bufl = ins.read(buf)) != -1) {
-            byte[] block = null;
+    public static String decrypt(String content, String privateKey, String characterEncoding)  {
+        try {
+            PrivateKey prikey = getPrivateKey(privateKey);
+            Cipher cipher = Cipher.getInstance(ALGORITHM);
+            cipher.init(Cipher.DECRYPT_MODE, prikey);
+            InputStream ins = new ByteArrayInputStream(Base64.decode(content));
+            ByteArrayOutputStream writer = new ByteArrayOutputStream();
+            //rsa解密的字节大小最多是128，将需要解密的内容，按128位拆开解密
+            byte[] buf = new byte[128];
+            int bufl;
+            while ((bufl = ins.read(buf)) != -1) {
+                byte[] block = null;
 
-            if (buf.length == bufl) {
-                block = buf;
-            } else {
-                block = new byte[bufl];
-                for (int i = 0; i < bufl; i++) {
-                    block[i] = buf[i];
+                if (buf.length == bufl) {
+                    block = buf;
+                } else {
+                    block = new byte[bufl];
+                    for (int i = 0; i < bufl; i++) {
+                        block[i] = buf[i];
+                    }
                 }
+                writer.write(cipher.doFinal(block));
             }
-            writer.write(cipher.doFinal(block));
+            return new String(writer.toByteArray(), characterEncoding);
+        } catch (Exception e) {
+            throw new ApiException(500,e.getMessage());
         }
-
-        return new String(writer.toByteArray(), characterEncoding);
     }
 
 

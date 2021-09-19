@@ -122,6 +122,7 @@ public void importSchool(MultipartFile excelFile){
 |RedisDelayedQueue|新增延迟队列|
 |RedisDelayedQueueInit|监听延迟队列初始化|
 |RedisDelayedQueueListener|监听延迟队列统一接口|
+|RedissonConfig|Redisson配置|
 
 ### 使用示例
 

@@ -62,7 +62,7 @@ public class RSA2 {
      * @return 解密后的字符串
      * @throws Exception 解密异常
      */
-    public static String decrypt(String content, String privateKey, String characterEncoding) throws Exception {
+    public static String decrypt(String content, String privateKey, String characterEncoding) {
         return RSA.decrypt(content, privateKey, characterEncoding);
     }
 
