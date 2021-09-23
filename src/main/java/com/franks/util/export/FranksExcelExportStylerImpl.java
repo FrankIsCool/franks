@@ -5,7 +5,7 @@ import cn.afterturn.easypoi.excel.export.styler.IExcelExportStyler;
 import org.apache.poi.ss.usermodel.*;
 
 /**
- * 类：
+ * 类：导出样式类
  * 内容：
  * 创建人：付帅
  * 时间：2021/1/6
@@ -30,7 +30,6 @@ public class FranksExcelExportStylerImpl extends AbstractExcelExportStyler
     public CellStyle stringSeptailStyle(Workbook workbook, boolean isWarp) {
         CellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();
-//        font.setFontHeightInPoints((short) 12);
         font.setColor(IndexedColors.BLACK.index);
         style.setFont(font);
         style.setAlignment(HorizontalAlignment.CENTER);
@@ -57,7 +56,6 @@ public class FranksExcelExportStylerImpl extends AbstractExcelExportStyler
     public CellStyle stringNoneStyle(Workbook workbook, boolean isWarp) {
         CellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();
-//        font.setFontHeightInPoints((short) 12);
         font.setColor(IndexedColors.BLACK.index);
         style.setFont(font);
         style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex()); // 是设置前景色不是背景色

@@ -1,11 +1,11 @@
 package com.franks.util.enums;
 
 /**
- * 失效时间枚举类
- * @author lh
- * @version 3.0
- * @since 2016-8-25
+ * 时间枚举
  *
+ * @module
+ * @author frank
+ * @date 2021/9/23 14:14
  */
 public enum ExpireTimeEnums {
 
