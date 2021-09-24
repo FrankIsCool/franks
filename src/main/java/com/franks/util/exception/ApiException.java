@@ -14,6 +14,10 @@ public class ApiException extends RuntimeException {
         this.errorCode = errorCode;
     }
 
+    public ApiException(Throwable cause) {
+        super(cause);
+    }
+
     public ApiException(Integer errorCode, String errorMsg) {
         super(errorMsg);
         this.errorCode = errorCode;
@@ -33,5 +37,9 @@ public class ApiException extends RuntimeException {
 
     public static ApiException of(String text) {
         return new ApiException(text);
+    }
+
+    public static ApiException of(Throwable cause) {
+        return new ApiException(cause);
     }
 }

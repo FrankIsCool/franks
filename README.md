@@ -181,7 +181,39 @@ public class PayQCordListener implements RedisDelayedQueueListener<PayStateReqVO
 | 类名 | 功能 |
 | --- | --- |
 |EncryptField|加密注解|
-|ResponseAdvice|加密拦截器|
+|ResponseAdvice|数据过滤|
+|IEncryptField|数据加密接口|
+
+
+
+### 使用示例
+
+```java
+
+@ControllerAdvice(basePackages = { "com.xxx.xxx.controller" })
+public class ResponseMessageAdvice implements ResponseBodyAdvice<Object> {
+    
+    @Override
+    public Object beforeBodyWrite(Object object, MethodParameter methodParameter, MediaType mediaType,
+                                  Class<? extends HttpMessageConverter<?>> converter, ServerHttpRequest request,
+                                  ServerHttpResponse response) {
+        EncryptFieldAdvice.encryptField(object, new IEncryptField() {
+            @Override
+            public String encrypt(String s) {
+                return SignUtils.MD5.createSign(s,"frank","utf-8");
+            }
+        });
+        return object;
+    }
+
+    @Override
+    public boolean supports(MethodParameter methodParameter,
+                            Class<? extends HttpMessageConverter<?>> httpMessageConverter) {
+        return true;
+    }
+
+}
+```
 
 ***
 
