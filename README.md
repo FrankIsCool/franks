@@ -17,7 +17,7 @@
 |<a href="#model">model</a>|常用实体类|
 |<a href="#redis">redis</a>|redis工具类|
 |<a href="#redisson">redisson</a>|延迟队列|
-|<a href="#respBody">respBody</a>|返回数据加密|
+|<a href="#encrypt">encrypt</a>|数据加密,解密|
 |<a href="#scheduler">scheduler</a>|动态定时任务|
 |<a href="#sign">sign</a>|加密|
 |<a href="#str">str</a>|字符串工具类|
@@ -156,6 +156,12 @@ public void importSchool(MultipartFile excelFile){
 |RedisDelayedQueueListener|监听延迟队列统一接口|
 |RedissonConfig|Redisson配置|
 
+### 使用场景
+* 支付二维码，定时失效，比如一个新的支付二维码，自动两个小时后失效。
+* 创建订单，30分钟未支付，自动取消订单
+以上场景，可以使用延迟的消息队列进行实现。最优解
+
+
 ### 使用示例
 
 ```java
@@ -176,21 +182,28 @@ public class PayQCordListener implements RedisDelayedQueueListener<PayStateReqVO
 
 ***
 
-## <a id="respBody">respBody-返回数据加密</a>
+## <a id="encrypt">encrypt-数据加密，解密</a>
+
+* 【EncryptField】、【EncryptFieldUtil】、【IEncryptField】、【IDecryptField】是基本的加密，解密工具，可以针对各种复杂使用场景，也可在此基础上自行封装。
+* 【PhoneEncrypt】、【PhoneEncryptUtil】是在基础之上，再次封装，满足常见场景需求。
 
 | 类名 | 功能 |
 | --- | --- |
 |EncryptField|基础-加密注解|
-|EncryptFieldAdvice|基础-数据加密，解密|
+|EncryptFieldUtil|基础-数据加密，解密|
 |IEncryptField|基础-数据加密接口|
 |IDecryptField|基础-数据解密接口|
 |PhoneEncrypt|简化功能-手机号加密注解|
-|PhoneEncryptAdvice|简化功能-手机号加密|
+|PhoneEncryptUtil|简化功能-手机号加密|
 |IDCardEncrypt|简化功能-身份证加密注解|
-|IDCardEncryptAdvice|简化功能-身份证加密|
+|IDCardEncryptUtil|简化功能-身份证加密|
 |EncryptUtil|简化功能-手机号，身份证加密工具类|
 
 
+### 使用场景
+* 用户的手机号，身份证号在持久化时，自行加密
+* 在数据库中获取的值是密文（例如用户手机号），自行解密
+* 返回前端时，把手机号等敏感信息，自行加密（示例如下）
 
 ### 使用示例
 

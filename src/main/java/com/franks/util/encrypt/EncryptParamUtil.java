@@ -1,4 +1,4 @@
-package com.franks.util.respBody;
+package com.franks.util.encrypt;
 
 import com.franks.util.exception.ApiException;
 import org.apache.commons.lang.StringUtils;
@@ -19,7 +19,7 @@ import java.util.List;
  * @date 2021/9/19 15:40
  */
 @Component
-public class EncryptFieldAdvice {
+public class EncryptParamUtil {
     /**
      * 参数加密
      *

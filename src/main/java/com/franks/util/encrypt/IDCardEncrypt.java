@@ -1,4 +1,4 @@
-package com.franks.util.respBody;
+package com.franks.util.encrypt;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

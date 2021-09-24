@@ -1,4 +1,4 @@
-package com.franks.util.respBody;
+package com.franks.util.encrypt;
 
 import com.franks.util.empty.ValidUtils;
 import org.springframework.stereotype.Component;
@@ -11,17 +11,17 @@ import org.springframework.stereotype.Component;
  * @date 2021/9/19 15:40
  */
 @Component
-public class IDCardEncryptAdvice {
+public class PhoneEncryptUtil {
     /**
      * 对含注解字段加密
      *
      * @param t
      */
     public static <T> void encryptField(T t) {
-        EncryptFieldAdvice.encryptField(t, PhoneEncrypt.class, new IEncryptField() {
+        EncryptParamUtil.encryptField(t, PhoneEncrypt.class, new IEncryptField() {
             @Override
             public String encrypt(String content) {
-                return ValidUtils.isIDCard(content) ? EncryptUtil.idCardEncry(content) : content;
+                return ValidUtils.isMobile(content) ? EncryptUtil.phoneEncry(content) : content;
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.franks.util.respBody;
+package com.franks.util.encrypt;
 
 /**
  * 加密接口
