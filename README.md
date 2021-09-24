@@ -180,9 +180,15 @@ public class PayQCordListener implements RedisDelayedQueueListener<PayStateReqVO
 
 | 类名 | 功能 |
 | --- | --- |
-|EncryptField|加密注解|
-|ResponseAdvice|数据过滤|
-|IEncryptField|数据加密接口|
+|EncryptField|基础-加密注解|
+|EncryptFieldAdvice|基础-数据加密，解密|
+|IEncryptField|基础-数据加密接口|
+|IDecryptField|基础-数据解密接口|
+|PhoneEncrypt|简化功能-手机号加密注解|
+|PhoneEncryptAdvice|简化功能-手机号加密|
+|IDCardEncrypt|简化功能-身份证加密注解|
+|IDCardEncryptAdvice|简化功能-身份证加密|
+|EncryptUtil|简化功能-手机号，身份证加密工具类|
 
 
 
@@ -193,6 +199,10 @@ public class PayQCordListener implements RedisDelayedQueueListener<PayStateReqVO
 ......
 @EncryptField
 private String kindName;
+@PhoneEncrypt
+private String phone;
+@IDCardEncrypt
+private String idCard;
 ......
 //返回结果进行拦截处理
 @ControllerAdvice(basePackages = { "com.xxx.xxx.controller" })
@@ -202,12 +212,14 @@ public class ResponseMessageAdvice implements ResponseBodyAdvice<Object> {
     public Object beforeBodyWrite(Object object, MethodParameter methodParameter, MediaType mediaType,
                                   Class<? extends HttpMessageConverter<?>> converter, ServerHttpRequest request,
                                   ServerHttpResponse response) {
-        EncryptFieldAdvice.encryptField(object, new IEncryptField() {
+        EncryptFieldAdvice.encryptField(object, EncryptField.class, new IEncryptField() {
             @Override
             public String encrypt(String s) {
                 return SignUtils.MD5.createSign(s,"frank","utf-8");
             }
         });
+        IDCardEncryptAdvice.encryptField(object);
+        PhoneEncryptAdvice.encryptField(object);
         return object;
     }
 
