@@ -40,7 +40,7 @@ public class EncryptParamUtil {
                         ((List) field.get(t)).stream().forEach(obj -> encryptField(obj, annotationClass, encryptField));
                     }else if (field.getType().getName() == Object.class.getName()) {
                         encryptField(field.get(t), annotationClass, encryptField);
-                    }else if (field.isAnnotationPresent(annotationClass)) {
+                    }else if (field.isAnnotationPresent(annotationClass) && field.get(t) instanceof String) {
                         String fieldValue = (String) field.get(t);
                         if (StringUtils.isNotEmpty(fieldValue)) {
                             field.set(t, encryptField.encrypt(fieldValue));
