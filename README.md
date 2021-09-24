@@ -189,7 +189,12 @@ public class PayQCordListener implements RedisDelayedQueueListener<PayStateReqVO
 ### 使用示例
 
 ```java
-
+//返回结果属性添加注解
+......
+@EncryptField
+private String kindName;
+......
+//返回结果进行拦截处理
 @ControllerAdvice(basePackages = { "com.xxx.xxx.controller" })
 public class ResponseMessageAdvice implements ResponseBodyAdvice<Object> {
     
