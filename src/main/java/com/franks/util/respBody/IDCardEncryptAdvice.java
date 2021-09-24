@@ -23,11 +23,6 @@ public class IDCardEncryptAdvice {
             public String encrypt(String content) {
                 return ValidUtils.isIDCard(content) ? EncryptUtil.idCardEncry(content) : content;
             }
-
-            @Override
-            public String decrypt(String content) {
-                return null;
-            }
         });
     }
 }

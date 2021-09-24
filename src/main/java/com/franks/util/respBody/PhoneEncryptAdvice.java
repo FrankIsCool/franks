@@ -23,11 +23,6 @@ public class PhoneEncryptAdvice {
             public String encrypt(String content) {
                 return ValidUtils.isMobile(content) ? EncryptUtil.phoneEncry(content) : content;
             }
-
-            @Override
-            public String decrypt(String content) {
-                return null;
-            }
         });
     }
 }
