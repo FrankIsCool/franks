@@ -15,11 +15,4 @@ public interface IEncryptField {
      * @return 加密后数据
      */
     String encrypt(String content);
-    /**
-     * 解密
-     *
-     * @param content 加密数据
-     * @return 解密后数据
-     */
-    String decrypt(String content);
 }

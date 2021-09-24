@@ -1,10 +1,10 @@
 package com.franks.util.respBody;
 
 import com.franks.util.exception.ApiException;
-import com.franks.util.mysql.DecryptField;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 加密返回参数
+ * 参数加密，解密
  *
  * @author frank
  * @module
@@ -21,27 +21,32 @@ import java.util.List;
 @Component
 public class EncryptFieldAdvice {
     /**
-     * 对含注解字段加密
+     * 参数加密
      *
-     * @param t
+     * @param t               待加密对象
+     * @param annotationClass 注解类型
+     * @param encryptField    加密接口
+     * @return void
+     * @Author frank
+     * @Date 2021/9/24 15:05
      */
-    public static <T> void encryptField(T t, IEncryptField iEncryptField) {
+    public static <T> void encryptField(T t, Class<? extends Annotation> annotationClass, IEncryptField encryptField) {
         Field[] declaredFields = getAllFields(t);
         try {
             if (declaredFields.length > 0) {
                 for (Field field : declaredFields) {
                     field.setAccessible(true);
-                    if (field.isAnnotationPresent(EncryptField.class) && field.getType().toString().endsWith("String")) {
+                    if (field.isAnnotationPresent(annotationClass)) {
                         String fieldValue = (String) field.get(t);
                         if (StringUtils.isNotEmpty(fieldValue)) {
-                            field.set(t, iEncryptField.encrypt(fieldValue));
+                            field.set(t, encryptField.encrypt(fieldValue));
                         }
                     }
                     if (field.getType().getName() == Object.class.getName()) {
                         if (field.get(t) instanceof Collection) {
-                            ((List) field.get(t)).stream().forEach(obj -> encryptField(obj, iEncryptField));
+                            ((List) field.get(t)).stream().forEach(obj -> encryptField(obj, annotationClass, encryptField));
                         } else {
-                            encryptField(field.get(t), iEncryptField);
+                            encryptField(field.get(t), annotationClass, encryptField);
                         }
                     }
                 }
@@ -53,6 +58,11 @@ public class EncryptFieldAdvice {
 
     /**
      * 获取所有类和父类属性
+     *
+     * @param object 对象
+     * @return
+     * @Author frank
+     * @Date 2021/9/24 15:04
      */
     private static Field[] getAllFields(Object object) {
         Class clazz = object.getClass();
@@ -67,27 +77,32 @@ public class EncryptFieldAdvice {
     }
 
     /**
-     * 对含注解字段解密
+     * 参数解密
      *
-     * @param t d
+     * @param t               待解密对象
+     * @param annotationClass 注解类型
+     * @param decryptField    解密方法
+     * @return void
+     * @Author frank
+     * @Date 2021/9/24 15:04
      */
-    public static <T> void decryptField(T t, IEncryptField iEncryptField) {
+    public static <T> void decryptField(T t, Class<? extends Annotation> annotationClass, IDecryptField decryptField) {
         Field[] declaredFields = getAllFields(t);
         try {
             if (declaredFields.length > 0) {
                 for (Field field : declaredFields) {
                     field.setAccessible(true);
-                    if (field.isAnnotationPresent(DecryptField.class) && field.getType().toString().endsWith("String")) {
+                    if (field.isAnnotationPresent(annotationClass)) {
                         String fieldValue = (String) field.get(t);
                         if (StringUtils.isNotEmpty(fieldValue)) {
-                            field.set(t, iEncryptField.encrypt(fieldValue));
+                            field.set(t, decryptField.decrypt(fieldValue));
                         }
                     }
                     if (field.getType().getName() == Object.class.getName()) {
                         if (field.get(t) instanceof Collection) {
-                            ((List) field.get(t)).stream().forEach(obj -> encryptField(obj, iEncryptField));
+                            ((List) field.get(t)).stream().forEach(obj -> decryptField(obj, annotationClass, decryptField));
                         } else {
-                            encryptField(field.get(t), iEncryptField);
+                            decryptField(field.get(t), annotationClass, decryptField);
                         }
                     }
                 }
