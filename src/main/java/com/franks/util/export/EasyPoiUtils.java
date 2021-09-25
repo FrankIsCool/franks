@@ -6,7 +6,7 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import com.franks.util.constant.Constant;
-import org.apache.commons.lang.StringUtils;
+import com.franks.util.empty.EmptyUtil;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -136,7 +136,7 @@ public class EasyPoiUtils {
 	 * @return
 	 */
 	public static <T> List<T> importExcel(String filePath, Integer titleRows, Integer headerRows, Class<T> pojoClass) {
-		if (StringUtils.isBlank(filePath)) {
+		if (EmptyUtil.isEmpty(filePath)) {
 			return null;
 		}
 		ImportParams params = new ImportParams();

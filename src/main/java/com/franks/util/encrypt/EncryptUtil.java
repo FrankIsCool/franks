@@ -1,6 +1,7 @@
 package com.franks.util.encrypt;
 
-import org.apache.commons.lang.StringUtils;
+
+import com.franks.util.empty.EmptyUtil;
 
 /**
  * 手机号身份证加密
@@ -20,7 +21,7 @@ public class EncryptUtil {
      * @date 2020/7/7
      **/
     public static String phoneEncry(String phone) {
-        if (phone.isEmpty() || phone.trim().length() < 1) {
+        if (EmptyUtil.isEmpty(phone)) {
             return phone;
         }
         if ((phone = phone.trim()).length() > 7) {
@@ -38,7 +39,7 @@ public class EncryptUtil {
      * @return
      */
     public static String idCardEncry(String idCard) {
-        if (StringUtils.isEmpty(idCard) || idCard.length() < 8) {
+        if (EmptyUtil.isEmpty(idCard) || idCard.length() < 8) {
             return idCard;
         }
         StringBuilder s = new StringBuilder();
