@@ -20,7 +20,6 @@
 |<a href="#encrypt">encrypt</a>|数据加密,解密|
 |<a href="#scheduler">scheduler</a>|动态定时任务|
 |<a href="#sign">sign</a>|加密|
-|<a href="#str">str</a>|字符串工具类|
 |<a href="#transition">transition</a>|数据类型转换|
 
 ***
@@ -289,14 +288,6 @@ public class PayQCordJob implements Job {
 |SHA1|SHA1加密解密工具类|
 |SHA256|SHA256加密解密工具类|
 |SignUtils|同一封装加密工具类|
-
-***
-
-## <a id="str">str-字符串工具类</a>
-
-| 类名 | 功能 |
-| --- | --- |
-|StringUtils|字符串工具类|
 
 ***
 
