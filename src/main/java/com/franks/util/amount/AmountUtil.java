@@ -1,5 +1,7 @@
 package com.franks.util.amount;
 
+import com.franks.util.constant.Constant;
+
 import java.math.BigDecimal;
 
 /**
@@ -32,7 +34,7 @@ public class AmountUtil {
     /**
      * 金额的精度，默认值为2
      */
-    private static final int MONEY_PRECISION = 2;
+    private static final int MONEY_PRECISION = Constant.TWO;
     /**
      * 特殊字符：零元整
      */

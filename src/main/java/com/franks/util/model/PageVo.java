@@ -1,5 +1,6 @@
 package com.franks.util.model;
 
+import com.franks.util.constant.Constant;
 import com.franks.util.empty.EmptyUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,31 +19,39 @@ public class PageVo {
      * 页码
      */
     @ApiModelProperty("页码")
-    private Integer pageNum = 1;
+    private Integer pageNum = Constant.ONE;
     /**
      * 每页条数
      */
     @ApiModelProperty("每页条数")
-    private Integer pageSize = 10;
+    private Integer pageSize = Constant.TEN;
+
+    public PageVo() {
+    }
+
+    public PageVo(Integer pageNum, Integer pageSize) {
+        this.pageNum = EmptyUtil.isEmpty(pageNum) || pageNum < Constant.ONE ? Constant.ONE : pageNum;
+        this.pageSize = EmptyUtil.isEmpty(pageSize) || pageSize < Constant.ONE ? Constant.TEN : pageSize;
+    }
+
+    public static PageVo setPage(Integer pageNum, Integer pageSize) {
+        return of(pageNum, pageSize);
+    }
+
+    public static PageVo of(Integer pageNum, Integer pageSize) {
+        return new PageVo(EmptyUtil.isEmpty(pageNum) || pageNum < Constant.ONE ? Constant.ONE : pageNum, EmptyUtil.isEmpty(pageSize) || pageSize < Constant.ONE ? Constant.TEN : pageSize);
+    }
 
     public void setPageNum(Integer pageNum) {
-        if(EmptyUtil.isEmpty(pageNum)){
-            return;
-        }
-        this.pageNum = pageNum;
+        this.pageNum = EmptyUtil.isEmpty(pageNum) || pageNum < Constant.ONE ? Constant.ONE : pageNum;
     }
 
     public void setPageSize(Integer pageSize) {
-        if(EmptyUtil.isEmpty(pageSize)){
-            return;
-        }
-        this.pageSize = pageSize;
+        this.pageSize = EmptyUtil.isEmpty(pageSize) || pageSize < Constant.ONE ? Constant.TEN : pageSize;
     }
-    public static void clean(PageVo vo){
-        if(EmptyUtil.isEmpty(vo)){
-            return;
-        }
-        vo.setPageNum(null);
-        vo.setPageNum(null);
+
+    public void clean() {
+        this.pageNum = null;
+        this.pageSize = null;
     }
 }

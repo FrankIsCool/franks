@@ -18,11 +18,6 @@ public class PhoneEncryptUtil {
      * @param t
      */
     public static <T> void encryptField(T t) {
-        EncryptParamUtil.encryptField(t, PhoneEncrypt.class, new IEncryptField() {
-            @Override
-            public String encrypt(String content) {
-                return ValidUtils.isMobile(content) ? EncryptUtil.phoneEncry(content) : content;
-            }
-        });
+        EncryptParamUtil.encryptField(t, PhoneEncrypt.class, content -> ValidUtils.isMobile(content) ? EncryptUtil.phoneEncry(content) : content);
     }
 }

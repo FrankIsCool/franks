@@ -1,16 +1,22 @@
 package com.franks.util.exception;
 
-@SuppressWarnings("serial")
+/**
+ * 异常类
+ *
+ * @author frank
+ * @module
+ * @date 2021/9/25 11:49
+ */
 public class ApiException extends RuntimeException {
-    Integer errorCode;
+    //异常码
+    private String errorCode;
 
     public ApiException(String errorMsg) {
         super(errorMsg);
-        this.errorCode = 0;
     }
 
-    public ApiException(Integer errorCode) {
-        super("");
+    public ApiException(String errorCode, String errorMsg) {
+        super(errorMsg);
         this.errorCode = errorCode;
     }
 
@@ -18,21 +24,12 @@ public class ApiException extends RuntimeException {
         super(cause);
     }
 
-    public ApiException(Integer errorCode, String errorMsg) {
-        super(errorMsg);
-        this.errorCode = errorCode;
-    }
-
-    public Integer getErrorCode() {
+    public String getErrorCode() {
         return errorCode;
     }
 
-    public static ApiException of(Integer code, String text) {
+    public static ApiException of(String code, String text) {
         return new ApiException(code, text);
-    }
-
-    public static ApiException of(Integer code) {
-        return new ApiException(code);
     }
 
     public static ApiException of(String text) {

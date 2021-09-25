@@ -28,8 +28,8 @@ public class EmptyUtil {
         if (o instanceof Integer || o instanceof Long) {
             return o != null;
         }
-        if (o instanceof String) {
-            return StringUtils.isNotBlank((String) o);
+        if (o instanceof CharSequence) {
+            return StringUtils.isNotBlank((CharSequence) o);
         }
         if (o instanceof Collection) {
             return CollectionUtils.isNotEmpty((Collection) o);
@@ -40,6 +40,20 @@ public class EmptyUtil {
         return null != o;
     }
 
+    /**
+     * 非空校验
+     *
+     * @param css 待校验数据
+     * @return 是否为空
+     * @Author frank
+     * @Date 2021/9/18 11:18
+     */
+    public static boolean isNotEmpty(CharSequence... css) {
+        return StringUtils.isNoneBlank(css);
+    }
+    public static boolean isEmpty(CharSequence... css) {
+        return StringUtils.isAnyBlank(css);
+    }
     public static boolean isEmpty(Object o) {
         return !isNotEmpty(o);
     }

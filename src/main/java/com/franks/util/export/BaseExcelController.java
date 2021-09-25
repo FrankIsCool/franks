@@ -3,6 +3,7 @@ package com.franks.util.export;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.alibaba.fastjson.JSONObject;
+import com.franks.util.constant.Constant;
 import com.franks.util.date.DateProperties;
 import com.franks.util.date.StrDateUtil;
 import com.franks.util.empty.EmptyUtil;
@@ -103,12 +104,12 @@ public class BaseExcelController {
 
     public String getDataParm(String dataParm) {
         if (EmptyUtil.isEmpty(dataParm)) {
-            dataParm = "";
+            dataParm = Constant.BLANK_STR;
         }
         try {
             return new String(Base64.decodeBase64(dataParm.replaceAll(" ", "+")
-                    .replaceAll("\n", "")
-                    .getBytes("utf-8")), "utf-8");
+                    .replaceAll("\n", Constant.BLANK_STR)
+                    .getBytes(Constant.CHARSET)), Constant.CHARSET);
         } catch (UnsupportedEncodingException e) {
             log.error("导出失败，参数解密失败", e);
             throw new ApiException("导出失败!参数解密失败");

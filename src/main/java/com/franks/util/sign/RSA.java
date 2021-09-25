@@ -211,7 +211,7 @@ public class RSA {
             }
             return new String(writer.toByteArray(), characterEncoding);
         } catch (Exception e) {
-            throw new ApiException(500,e.getMessage());
+            throw new ApiException("500",e.getMessage());
         }
     }
 

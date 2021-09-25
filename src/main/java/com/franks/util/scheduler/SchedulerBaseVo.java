@@ -1,5 +1,6 @@
 package com.franks.util.scheduler;
 
+import com.franks.util.constant.Constant;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -33,15 +34,15 @@ public class SchedulerBaseVo implements Serializable {
     private String groupName;
 
     public SchedulerBaseVo() {
-        this.groupName = "notSchool";
+        this.groupName = Constant.DEFAULT_SERVICE_NAME;
         this.jobName = UUID.randomUUID().toString();
         this.triggerName = UUID.randomUUID().toString();
     }
 
     public SchedulerBaseVo(String jobName) {
+        this.groupName = Constant.DEFAULT_SERVICE_NAME;
         this.jobName = jobName;
         this.triggerName = jobName;
-        this.groupName = "notSchool";
     }
 
     public SchedulerBaseVo(String jobName, String groupName) {

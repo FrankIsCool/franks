@@ -8,6 +8,8 @@ import org.apache.commons.logging.LogFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.franks.util.constant.Constant.*;
+
 /**
  * 加密工具
  *
@@ -148,6 +150,7 @@ public enum SignUtils {
      * @return 签名结果
      */
     public abstract String decrypt(String sign, String key, String characterEncoding);
+
     /**
      * 根据条件移除不参与加密的key
      *
@@ -158,7 +161,7 @@ public enum SignUtils {
      * @Date 2021/9/19 10:13
      */
     private static Map paramIgnoreKey(Map parameters, String... ignoreKey) {
-        if (EmptyUtil.isEmpty(parameters) || EmptyUtil.isEmpty(ignoreKey) || ignoreKey.length < 1) {
+        if (EmptyUtil.isEmpty(parameters) || EmptyUtil.isEmpty(ignoreKey)) {
             return parameters;
         }
         Arrays.asList(ignoreKey).stream().forEach(key -> {
@@ -209,7 +212,7 @@ public enum SignUtils {
             if (o instanceof String[]) {
                 String[] values = (String[]) o;
                 if (EmptyUtil.isNotEmpty(values)) {
-                    parameters.put(key, Arrays.asList(values).stream().filter(value -> EmptyUtil.isNotEmpty(value)).collect(Collectors.joining(",")));
+                    parameters.put(key, Arrays.asList(values).stream().filter(value -> EmptyUtil.isNotEmpty(value)).collect(Collectors.joining(SEPARATOR_COMMA)));
                 }
             }
         });
@@ -227,7 +230,7 @@ public enum SignUtils {
      */
     private static String paramToStr(Map parameters, String separator) {
         if (EmptyUtil.isEmpty(parameters)) {
-            return "";
+            return BLANK_STR;
         }
         StringBuffer sb = new StringBuffer();
         //已经排序好处理
@@ -235,7 +238,7 @@ public enum SignUtils {
             parameters.keySet().stream().forEach(key -> {
                 sb.append(key).append("=").append(parameters.get(key).toString().trim()).append(separator);
             });
-            if (sb.length() > 0 && !"".equals(separator)) {
+            if (EmptyUtil.isNotEmpty(sb, separator)) {
                 sb.deleteCharAt(sb.length() - 1);
             }
             return sb.toString();
@@ -247,11 +250,12 @@ public enum SignUtils {
         keys.stream().forEach(key -> {
             sb.append(key).append("=").append(parameters.get(key)).append(separator);
         });
-        if (sb.length() > 0) {
+        if (EmptyUtil.isNotEmpty(sb)) {
             sb.deleteCharAt(sb.length() - 1);
         }
         return sb.toString();
     }
+
     /**
      * 拼接字符串-数据的value
      *
@@ -263,7 +267,7 @@ public enum SignUtils {
      */
     private static String paramValueToStr(Map parameters, String separator) {
         if (EmptyUtil.isEmpty(parameters)) {
-            return "";
+            return BLANK_STR;
         }
         StringBuffer sb = new StringBuffer();
         //已经排序好处理
@@ -271,7 +275,7 @@ public enum SignUtils {
             parameters.keySet().stream().forEach(key -> {
                 sb.append(parameters.get(key).toString().trim()).append(separator);
             });
-            if (sb.length() > 0 && !"".equals(separator)) {
+            if (EmptyUtil.isNotEmpty(sb, separator)) {
                 sb.deleteCharAt(sb.length() - 1);
             }
             return sb.toString();
@@ -283,11 +287,12 @@ public enum SignUtils {
         keys.stream().forEach(key -> {
             sb.append(parameters.get(key)).append(separator);
         });
-        if (sb.length() > 0) {
+        if (EmptyUtil.isNotEmpty(sb)) {
             sb.deleteCharAt(sb.length() - 1);
         }
         return sb.toString();
     }
+
     /**
      * 拼接字符串-数据的key
      *
@@ -299,7 +304,7 @@ public enum SignUtils {
      */
     private static String paramKeyToStr(Map parameters, String separator) {
         if (EmptyUtil.isEmpty(parameters)) {
-            return "";
+            return BLANK_STR;
         }
         StringBuffer sb = new StringBuffer();
         //已经排序好处理
@@ -307,23 +312,24 @@ public enum SignUtils {
             parameters.keySet().stream().forEach(key -> {
                 sb.append(key).append(separator);
             });
-            if (sb.length() > 0 && !"".equals(separator)) {
+            if (EmptyUtil.isNotEmpty(sb, separator)) {
                 sb.deleteCharAt(sb.length() - 1);
             }
             return sb.toString();
         }
         //未排序须处理
-        List<String> keys = new ArrayList<String>(parameters.keySet());
+        List<String> keys = new ArrayList<>(parameters.keySet());
         //排序
         Collections.sort(keys);
         keys.stream().forEach(key -> {
             sb.append(key).append(separator);
         });
-        if (sb.length() > 0) {
+        if (EmptyUtil.isNotEmpty(sb)) {
             sb.deleteCharAt(sb.length() - 1);
         }
         return sb.toString();
     }
+
     /**
      * 拼接字符串
      * 示例：参数=参数值[separator]参数=参数值
@@ -337,16 +343,17 @@ public enum SignUtils {
      */
     public static String parameterText(Map parameters, String separator, Boolean inNull, String... ignoreKey) {
         if (EmptyUtil.isEmpty(separator)) {
-            separator = "";
+            separator = BLANK_STR;
         }
         if (EmptyUtil.isEmpty(parameters)) {
-            return "";
+            return BLANK_STR;
         }
         if (inNull) {
             return paramToStr(paramValues(paramIgnoreKey(parameters, ignoreKey)), separator);
         }
         return paramToStr(paramValues(paramIgnoreNull(paramIgnoreKey(parameters, ignoreKey))), separator);
     }
+
     /**
      * 把数组所有元素排序，并按照“参数=参数值”的模式用“@param separator”字符拼接成字符串
      *
@@ -354,9 +361,10 @@ public enum SignUtils {
      * @return 去掉空值与签名参数后的新签名，拼接后字符串
      */
     public static String parameterText(Map parameters) {
-        return parameterText(parameters, "&");
+        return parameterText(parameters, AND);
 
     }
+
     /**
      * 把数组所有元素排序，并按照“参数=参数值”的模式用“@param separator”字符拼接成字符串
      *
@@ -367,6 +375,7 @@ public enum SignUtils {
     public static String parameterText(Map parameters, String separator) {
         return parameterText(parameters, separator, Boolean.FALSE);
     }
+
     /**
      * 把数组所有元素排序，并按照“参数=参数值”的模式用“@param separator”字符拼接成字符串
      *
@@ -374,9 +383,10 @@ public enum SignUtils {
      * @param separator  分隔符
      * @return 去掉空值与签名参数后的新签名，拼接后字符串
      */
-    public static String parameterText(Map parameters, String separator,Boolean inNull) {
-        return parameterText(parameters, separator, inNull,"signature", "sign", "key", "sign_type");
+    public static String parameterText(Map parameters, String separator, Boolean inNull) {
+        return parameterText(parameters, separator, inNull, SIGNATURE, SIGN, KEY, SIGN_TYPE);
     }
+
     /**
      * 拼接字符串
      * 示例：参数值[separator]参数值
@@ -390,16 +400,17 @@ public enum SignUtils {
      */
     public static String parameterValueText(Map parameters, String separator, Boolean inNull, String... ignoreKey) {
         if (EmptyUtil.isEmpty(separator)) {
-            separator = "";
+            separator = BLANK_STR;
         }
         if (EmptyUtil.isEmpty(parameters)) {
-            return "";
+            return BLANK_STR;
         }
         if (inNull) {
             return paramValueToStr(paramValues(paramIgnoreKey(parameters, ignoreKey)), separator);
         }
         return paramValueToStr(paramValues(paramIgnoreNull(paramIgnoreKey(parameters, ignoreKey))), separator);
     }
+
     /**
      * 拼接字符串
      * 示例：参数值[separator]参数值
@@ -413,16 +424,17 @@ public enum SignUtils {
      */
     public static String parameterKeyText(Map parameters, String separator, Boolean inNull, String... ignoreKey) {
         if (EmptyUtil.isEmpty(separator)) {
-            separator = "";
+            separator = BLANK_STR;
         }
         if (EmptyUtil.isEmpty(parameters)) {
-            return "";
+            return BLANK_STR;
         }
         if (inNull) {
             return paramKeyToStr(paramValues(paramIgnoreKey(parameters, ignoreKey)), separator);
         }
         return paramKeyToStr(paramValues(paramIgnoreNull(paramIgnoreKey(parameters, ignoreKey))), separator);
     }
+
     /**
      * 签名
      *
@@ -432,7 +444,7 @@ public enum SignUtils {
      * @return 签名值
      */
     public String sign(Map parameters, String key, String characterEncoding) {
-        return sign(parameters, "&", key, characterEncoding);
+        return sign(parameters, AND, key, characterEncoding);
     }
 
     /**

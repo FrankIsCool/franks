@@ -5,6 +5,7 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import com.franks.util.constant.Constant;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Component;
@@ -101,9 +102,9 @@ public class EasyPoiUtils {
 	 * @throws Exception
 	 */
 	private static void downLoadExcel(String fileName, HttpServletResponse response, Workbook workbook) throws Exception {
-		response.setCharacterEncoding("UTF-8");
-		response.setHeader("content-Type", "application/vnd.ms-excel");
-		response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+		response.setCharacterEncoding(Constant.CHARSET);
+		response.setHeader(Constant.CONTENT_TYPE, "application/vnd.ms-excel");
+		response.setHeader(Constant.CONTENT_DISPOSITION, "attachment;filename=" + URLEncoder.encode(fileName,Constant.CHARSET));
 		response.flushBuffer();
 		workbook.write(response.getOutputStream());
 		response.getOutputStream().close();
@@ -141,9 +142,7 @@ public class EasyPoiUtils {
 		ImportParams params = new ImportParams();
 		params.setTitleRows(titleRows);
 		params.setHeadRows(headerRows);
-		List<T> list = null;
-		list = ExcelImportUtil.importExcel(new File(filePath), pojoClass, params);
-		return list;
+		return ExcelImportUtil.importExcel(new File(filePath), pojoClass, params);
 	}
 
 	/**
@@ -164,9 +163,7 @@ public class EasyPoiUtils {
 		ImportParams params = new ImportParams();
 		params.setTitleRows(titleRows);
 		params.setHeadRows(headerRows);
-		List<T> list = null;
-		list = ExcelImportUtil.importExcel(file.getInputStream(), pojoClass, params);
-		return list;
+		return ExcelImportUtil.importExcel(file.getInputStream(), pojoClass, params);
 	}
 
 }

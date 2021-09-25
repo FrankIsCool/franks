@@ -23,11 +23,9 @@ public class EncryptUtil {
         if (phone.isEmpty() || phone.trim().length() < 1) {
             return phone;
         }
-        phone = phone.trim();
-        if (phone.length() > 7) {
+        if ((phone = phone.trim()).length() > 7) {
             return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
-        }
-        if (phone.length() <= 3) {
+        } else if (phone.length() <= 3) {
             return "****";
         }
         return phone.substring(0, 3) + "****";
@@ -43,11 +41,10 @@ public class EncryptUtil {
         if (StringUtils.isEmpty(idCard) || idCard.length() < 8) {
             return idCard;
         }
-        int count = idCard.length();
         StringBuilder s = new StringBuilder();
         s.append(idCard.substring(0, 4));
         s.append("**********");
-        s.append(idCard.substring(count - 4));
+        s.append(idCard.substring(idCard.length() - 4));
         return s.toString();
     }
 }

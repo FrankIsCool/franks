@@ -18,11 +18,6 @@ public class IDCardEncryptUtil {
      * @param t
      */
     public static <T> void encryptField(T t) {
-        EncryptParamUtil.encryptField(t, PhoneEncrypt.class, new IEncryptField() {
-            @Override
-            public String encrypt(String content) {
-                return ValidUtils.isIDCard(content) ? EncryptUtil.idCardEncry(content) : content;
-            }
-        });
+        EncryptParamUtil.encryptField(t, PhoneEncrypt.class, content -> ValidUtils.isIDCard(content) ? EncryptUtil.idCardEncry(content) : content);
     }
 }

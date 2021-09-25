@@ -1,6 +1,8 @@
 package com.franks.util.id;
 
 
+import com.franks.util.constant.Constant;
+
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
@@ -33,7 +35,7 @@ public class SequenceUtil {
     }
 
     public String createIdStr() {
-        return createId() + "";
+        return createId() + Constant.BLANK_STR;
     }
 
     public String createSn() {
