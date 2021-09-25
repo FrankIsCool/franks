@@ -1,7 +1,6 @@
 package com.franks.util.encrypt;
 
-import com.franks.util.exception.ApiException;
-import org.apache.commons.lang.StringUtils;
+import com.franks.util.empty.EmptyUtil;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -30,21 +29,17 @@ public class EncryptParamUtil {
      * @Date 2021/9/24 15:05
      */
     public static <T> void encryptField(T t, Class<? extends Annotation> annotationClass, IEncryptField encryptField) {
-        List<Field> declaredFields = getAllFields(t);
-        if (declaredFields.isEmpty()) {
-            return;
-        }
-        declaredFields.stream().forEach(field -> {
+        getAllFields(t).stream().forEach(field -> {
             field.setAccessible(true);
             try {
-                if (field.get(t) instanceof Collection) {
-                    ((List) field.get(t)).stream().forEach(obj -> encryptField(obj, annotationClass, encryptField));
+                Object o = field.get(t);
+                if (o instanceof Collection) {
+                    ((List) o).stream().forEach(obj -> encryptField(obj, annotationClass, encryptField));
                 } else if (field.getType().getName() == Object.class.getName()) {
-                    encryptField(field.get(t), annotationClass, encryptField);
-                } else if (field.isAnnotationPresent(annotationClass) && field.get(t) instanceof String) {
-                    String fieldValue = (String) field.get(t);
-                    if (StringUtils.isNotEmpty(fieldValue)) {
-                        field.set(t, encryptField.encrypt(fieldValue));
+                    encryptField(o, annotationClass, encryptField);
+                } else if (field.isAnnotationPresent(annotationClass) && o instanceof String) {
+                    if (EmptyUtil.isNotEmpty(o)) {
+                        field.set(t, encryptField.encrypt((String) o));
                     }
                 }
             } catch (IllegalAccessException e) {
@@ -81,28 +76,22 @@ public class EncryptParamUtil {
      * @Date 2021/9/24 15:04
      */
     public static <T> void decryptField(T t, Class<? extends Annotation> annotationClass, IDecryptField decryptField) {
-        List<Field> declaredFields = getAllFields(t);
-        try {
-            if (declaredFields.size() > 0) {
-                for (Field field : declaredFields) {
-                    field.setAccessible(true);
-                    if (field.isAnnotationPresent(annotationClass)) {
-                        String fieldValue = (String) field.get(t);
-                        if (StringUtils.isNotEmpty(fieldValue)) {
-                            field.set(t, decryptField.decrypt(fieldValue));
-                        }
-                    }
-                    if (field.getType().getName() == Object.class.getName()) {
-                        if (field.get(t) instanceof Collection) {
-                            ((List) field.get(t)).stream().forEach(obj -> decryptField(obj, annotationClass, decryptField));
-                        } else {
-                            decryptField(field.get(t), annotationClass, decryptField);
-                        }
+        getAllFields(t).stream().forEach(field -> {
+            field.setAccessible(true);
+            try {
+                Object o = field.get(t);
+                if (o instanceof Collection) {
+                    ((List) o).stream().forEach(obj -> decryptField(obj, annotationClass, decryptField));
+                } else if (field.getType().getName() == Object.class.getName()) {
+                    decryptField(o, annotationClass, decryptField);
+                } else if (field.isAnnotationPresent(annotationClass) && o instanceof String) {
+                    if (EmptyUtil.isNotEmpty(o)) {
+                        field.set(t, decryptField.decrypt((String) o));
                     }
                 }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
-        } catch (IllegalAccessException e) {
-            throw new ApiException(e);
-        }
+        });
     }
 }
