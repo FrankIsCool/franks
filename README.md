@@ -185,7 +185,8 @@ public class PayQCordListener implements RedisDelayedQueueListener<PayStateReqVO
 ## <a id="encrypt">encrypt-数据加密，解密</a>
 
 * 【EncryptField】、【EncryptFieldUtil】、【IEncryptField】、【IDecryptField】是基本的加密，解密工具，可以针对各种复杂使用场景，也可在此基础上自行封装。
-* 【PhoneEncrypt】、【PhoneEncryptUtil】是在基础之上，再次封装，满足常见场景需求。
+* 【PhoneEncrypt】、【PhoneEncryptUtil】是在基础之上，再次封装的手机号加密。
+* 【IDCardEncrypt】、【IDCardEncryptUtil】是在基础之上，再次封装的身份证号加密。
 
 | 类名 | 功能 |
 | --- | --- |

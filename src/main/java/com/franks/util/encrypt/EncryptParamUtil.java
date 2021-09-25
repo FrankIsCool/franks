@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -31,26 +30,27 @@ public class EncryptParamUtil {
      * @Date 2021/9/24 15:05
      */
     public static <T> void encryptField(T t, Class<? extends Annotation> annotationClass, IEncryptField encryptField) {
-        Field[] declaredFields = getAllFields(t);
-        try {
-            if (declaredFields.length > 0) {
-                for (Field field : declaredFields) {
-                    field.setAccessible(true);
-                    if (field.get(t) instanceof Collection) {
-                        ((List) field.get(t)).stream().forEach(obj -> encryptField(obj, annotationClass, encryptField));
-                    }else if (field.getType().getName() == Object.class.getName()) {
-                        encryptField(field.get(t), annotationClass, encryptField);
-                    }else if (field.isAnnotationPresent(annotationClass) && field.get(t) instanceof String) {
-                        String fieldValue = (String) field.get(t);
-                        if (StringUtils.isNotEmpty(fieldValue)) {
-                            field.set(t, encryptField.encrypt(fieldValue));
-                        }
+        List<Field> declaredFields = getAllFields(t);
+        if (declaredFields.isEmpty()) {
+            return;
+        }
+        declaredFields.stream().forEach(field -> {
+            field.setAccessible(true);
+            try {
+                if (field.get(t) instanceof Collection) {
+                    ((List) field.get(t)).stream().forEach(obj -> encryptField(obj, annotationClass, encryptField));
+                } else if (field.getType().getName() == Object.class.getName()) {
+                    encryptField(field.get(t), annotationClass, encryptField);
+                } else if (field.isAnnotationPresent(annotationClass) && field.get(t) instanceof String) {
+                    String fieldValue = (String) field.get(t);
+                    if (StringUtils.isNotEmpty(fieldValue)) {
+                        field.set(t, encryptField.encrypt(fieldValue));
                     }
                 }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
-        } catch (IllegalAccessException e) {
-            throw new ApiException(e);
-        }
+        });
     }
 
     /**
@@ -61,16 +61,13 @@ public class EncryptParamUtil {
      * @Author frank
      * @Date 2021/9/24 15:04
      */
-    private static Field[] getAllFields(Object object) {
+    private static List<Field> getAllFields(Object object) {
         Class clazz = object.getClass();
-        List<Field> fieldList = new ArrayList<>();
-        while (clazz != null) {
-            fieldList.addAll(new ArrayList<>(Arrays.asList(clazz.getDeclaredFields())));
-            clazz = clazz.getSuperclass();
+        List<Field> fieldList = Arrays.asList(clazz.getDeclaredFields());
+        while ((clazz = clazz.getSuperclass()) != null) {
+            fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
         }
-        Field[] fields = new Field[fieldList.size()];
-        fieldList.toArray(fields);
-        return fields;
+        return fieldList;
     }
 
     /**
@@ -84,9 +81,9 @@ public class EncryptParamUtil {
      * @Date 2021/9/24 15:04
      */
     public static <T> void decryptField(T t, Class<? extends Annotation> annotationClass, IDecryptField decryptField) {
-        Field[] declaredFields = getAllFields(t);
+        List<Field> declaredFields = getAllFields(t);
         try {
-            if (declaredFields.length > 0) {
+            if (declaredFields.size() > 0) {
                 for (Field field : declaredFields) {
                     field.setAccessible(true);
                     if (field.isAnnotationPresent(annotationClass)) {
