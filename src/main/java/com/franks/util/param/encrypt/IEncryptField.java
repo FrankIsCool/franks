@@ -1,4 +1,4 @@
-package com.franks.util.encrypt;
+package com.franks.util.param.encrypt;
 
 /**
  * 加密接口

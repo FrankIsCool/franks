@@ -1,4 +1,4 @@
-package com.franks.util.encrypt;
+package com.franks.util.param.encrypt;
 
 
 import com.franks.util.empty.EmptyUtil;

@@ -1,6 +1,9 @@
-package com.franks.util.encrypt;
+package com.franks.util.param;
 
 import com.franks.util.empty.EmptyUtil;
+import com.franks.util.param.encrypt.IEncryptField;
+import com.franks.util.param.decrypt.*;
+import com.franks.util.param.valid.IVaildField;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -17,7 +20,24 @@ import java.util.List;
  * @date 2021/9/19 15:40
  */
 @Component
-public class EncryptParamUtil {
+public class ParamUtil {
+    /**
+     * 获取所有类和父类属性
+     *
+     * @param object 对象
+     * @return
+     * @Author frank
+     * @Date 2021/9/24 15:04
+     */
+    private static List<Field> getAllFields(Object object) {
+        Class clazz = object.getClass();
+        List<Field> fieldList = Arrays.asList(clazz.getDeclaredFields());
+        while ((clazz = clazz.getSuperclass()) != null) {
+            fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
+        }
+        return fieldList;
+    }
+
     /**
      * 参数加密
      *
@@ -49,23 +69,6 @@ public class EncryptParamUtil {
     }
 
     /**
-     * 获取所有类和父类属性
-     *
-     * @param object 对象
-     * @return
-     * @Author frank
-     * @Date 2021/9/24 15:04
-     */
-    private static List<Field> getAllFields(Object object) {
-        Class clazz = object.getClass();
-        List<Field> fieldList = Arrays.asList(clazz.getDeclaredFields());
-        while ((clazz = clazz.getSuperclass()) != null) {
-            fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
-        }
-        return fieldList;
-    }
-
-    /**
      * 参数解密
      *
      * @param t               待解密对象
@@ -87,6 +90,36 @@ public class EncryptParamUtil {
                 } else if (field.isAnnotationPresent(annotationClass) && o instanceof String) {
                     if (EmptyUtil.isNotEmpty(o)) {
                         field.set(t, decryptField.decrypt((String) o));
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * 参数校验
+     *
+     * @param t               待校验对象
+     * @param annotationClass 注解类型
+     * @param vaildField      校验
+     * @return void
+     * @Author frank
+     * @Date 2021/9/24 15:05
+     */
+    public static <T> void vaildField(T t, Class<? extends Annotation> annotationClass, IVaildField vaildField) {
+        getAllFields(t).stream().forEach(field -> {
+            field.setAccessible(true);
+            try {
+                Object o = field.get(t);
+                if (o instanceof Collection) {
+                    ((List) o).stream().forEach(obj -> vaildField(obj, annotationClass, vaildField));
+                } else if (field.getType().getName() == Object.class.getName()) {
+                    vaildField(o, annotationClass, vaildField);
+                } else if (field.isAnnotationPresent(annotationClass) && o instanceof String) {
+                    if (EmptyUtil.isNotEmpty(o)) {
+                        vaildField.vaild((String) o);
                     }
                 }
             } catch (IllegalAccessException e) {
