@@ -20,7 +20,7 @@ import java.util.List;
  * @date 2021/9/19 15:40
  */
 @Component
-public class ParamUtil {
+public class ParamAdvice {
     /**
      * 获取所有类和父类属性
      *

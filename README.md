@@ -189,9 +189,13 @@ public class PayQCordListener implements RedisDelayedQueueListener<PayStateReqVO
 | 类名 | 功能 |
 | --- | --- |
 
-|ParamUtil|加密、解密、校验| |DecryptField、IDecryptField|解密注解| |EncryptField、IEncryptField|加密注解|
-|IDCardEncrypt、IDCardEncryptAdvice|身份证加密注解（常用在返回参数）| |PhoneEncrypt、PhoneEncryptAdvice|手机号加密注解（常用在返回参数）|
-|IDCardValid、IDCardValidAdvice|身份证验证注解（常用在请求参数）| |PhoneValid、PhoneValidAdvice|手机号验证注解（常用在请求参数）|
+|ParamAdvice|加密、解密、校验| 
+|DecryptField、IDecryptField|解密注解| 
+|EncryptField、IEncryptField|加密注解|
+|IDCardEncrypt、IDCardEncryptAdvice|身份证加密注解（常用在返回参数）| 
+|PhoneEncrypt、PhoneEncryptAdvice|手机号加密注解（常用在返回参数）|
+|IDCardValid、IDCardValidAdvice|身份证验证注解（常用在请求参数）| 
+|PhoneValid、PhoneValidAdvice|手机号验证注解（常用在请求参数）|
 
 ### 使用场景
 
@@ -221,7 +225,7 @@ public class ResponseMessageAdvice implements ResponseBodyAdvice<Object> {
     public Object beforeBodyWrite(Object object, MethodParameter methodParameter, MediaType mediaType,
                                   Class<? extends HttpMessageConverter<?>> converter, ServerHttpRequest request,
                                   ServerHttpResponse response) {
-        EncryptFieldAdvice.encryptField(object, EncryptField.class, new IEncryptField() {
+        ParamAdvice.encryptField(object, EncryptField.class, new IEncryptField() {
             @Override
             public String encrypt(String s) {
                 return SignUtils.MD5.createSign(s, "frank", "utf-8");

@@ -1,7 +1,7 @@
 package com.franks.util.param.encrypt.advice;
 
 import com.franks.util.valid.ValidUtils;
-import com.franks.util.param.ParamUtil;
+import com.franks.util.param.ParamAdvice;
 import com.franks.util.param.encrypt.annotation.IDCardEncrypt;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,7 @@ public class IDCardEncryptAdvice {
      * @param t
      */
     public static <T> void encryptField(T t) {
-        ParamUtil.encryptField(t, IDCardEncrypt.class, IDCardEncryptAdvice::idCardEncry);
+        ParamAdvice.encryptField(t, IDCardEncrypt.class, IDCardEncryptAdvice::idCardEncry);
     }
 
     /**

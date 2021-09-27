@@ -1,6 +1,6 @@
 package com.franks.util.param.valid.advice;
 
-import com.franks.util.param.ParamUtil;
+import com.franks.util.param.ParamAdvice;
 import com.franks.util.exception.ApiException;
 import com.franks.util.valid.ValidUtils;
 import com.franks.util.param.valid.annotation.PhoneValid;
@@ -21,7 +21,7 @@ public class PhoneValidAdvice {
      * @param t
      */
     public static <T> void validField(T t) {
-        ParamUtil.validField(t, PhoneValid.class, content -> {
+        ParamAdvice.validField(t, PhoneValid.class, content -> {
             if (ValidUtils.isMobile(content)) {
                 throw new ApiException("手机号格式错误");
             }

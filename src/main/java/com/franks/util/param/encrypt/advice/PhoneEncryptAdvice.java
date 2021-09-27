@@ -1,7 +1,7 @@
 package com.franks.util.param.encrypt.advice;
 
 import com.franks.util.valid.ValidUtils;
-import com.franks.util.param.ParamUtil;
+import com.franks.util.param.ParamAdvice;
 import com.franks.util.param.encrypt.annotation.PhoneEncrypt;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,7 @@ public class PhoneEncryptAdvice {
      * @param t
      */
     public static <T> void encryptField(T t) {
-        ParamUtil.encryptField(t, PhoneEncrypt.class, PhoneEncryptAdvice::phoneEncry);
+        ParamAdvice.encryptField(t, PhoneEncrypt.class, PhoneEncryptAdvice::phoneEncry);
     }
 
     /**
