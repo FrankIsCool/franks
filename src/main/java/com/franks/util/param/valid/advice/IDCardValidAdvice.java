@@ -20,7 +20,7 @@ public class IDCardValidAdvice {
      *
      * @param t
      */
-    public static <T> void vaildField(T t) {
+    public static <T> void validField(T t) {
         ParamAdvice.validField(t, IDCardValid.class, content -> {
             if (ValidUtils.isIDCard(content)) {
                 throw new ApiException("身份证格式错误");
