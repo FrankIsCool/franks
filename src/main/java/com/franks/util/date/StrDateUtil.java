@@ -29,7 +29,6 @@ public class StrDateUtil {
             throw new RuntimeException("date string to date fail");
         }
     }
-
     /**
      * String转Date
      *

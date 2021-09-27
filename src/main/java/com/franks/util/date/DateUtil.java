@@ -21,7 +21,7 @@ public class DateUtil {
      * @param date 时间
      * @return
      */
-    public static long dateToLong(Date date) {
+    public static long toLong(Date date) {
         return null == date ? null : date.getTime();
     }
 
@@ -31,7 +31,7 @@ public class DateUtil {
      * @param date 时间
      * @return
      */
-    public static Instant dateToInstant(Date date) {
+    public static Instant toInstant(Date date) {
         return null == date ? null : date.toInstant();
     }
     /**
@@ -40,7 +40,7 @@ public class DateUtil {
      * @param date 时间
      * @return
      */
-    public static Timestamp dateToTimestamp(Date date) {
+    public static Timestamp toTimestamp(Date date) {
         return null == date ? null : new Timestamp(date.getTime());
     }
     /**
@@ -49,8 +49,8 @@ public class DateUtil {
      * @param date 时间
      * @return
      */
-    public static String dateToStr(Date date) {
-        return null == date ? null : dateToStr(date, DateProperties.DATE_ALL);
+    public static String toStr(Date date) {
+        return null == date ? null : toStr(date, DateProperties.DATE_ALL);
     }
 
     /**
@@ -59,7 +59,7 @@ public class DateUtil {
      * @param date 时间
      * @return
      */
-    public static String dateToStr(Date date, String format) {
+    public static String toStr(Date date, String format) {
         return null == date ? null : new SimpleDateFormat(format).format(date);
     }
     /**

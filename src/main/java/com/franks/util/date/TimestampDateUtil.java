@@ -53,7 +53,7 @@ public class TimestampDateUtil {
      * @return
      */
     public static String toStr(Timestamp date) {
-        return null == date ? null :DateUtil.dateToStr(date);
+        return null == date ? null :DateUtil.toStr(date);
     }
 
     /**
@@ -64,7 +64,7 @@ public class TimestampDateUtil {
      * @return
      */
     public static String toStr(Timestamp date, String format) {
-        return null == date ? null : new SimpleDateFormat(format).format(DateUtil.dateToStr(date));
+        return null == date ? null : new SimpleDateFormat(format).format(DateUtil.toStr(date));
     }
     /**
      * 获取当前系统时间(原始格式)-Instant
@@ -82,7 +82,7 @@ public class TimestampDateUtil {
      * @return 返回增加后的日期
      */
     public static Timestamp addTime(Timestamp date, int... times) {
-        return DateUtil.dateToTimestamp(DateUtil.addTime(toDate(date), times[0], times[1], times[2], times[3], times[4], times[5], times[6]));
+        return DateUtil.toTimestamp(DateUtil.addTime(toDate(date), times[0], times[1], times[2], times[3], times[4], times[5], times[6]));
     }
 
     /**
