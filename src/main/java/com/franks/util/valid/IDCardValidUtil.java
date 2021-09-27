@@ -1,10 +1,9 @@
-package com.franks.util.param.valid;
+package com.franks.util.valid;
 
 import com.franks.util.date.DateProperties;
 import com.franks.util.date.DateUtil;
 import com.franks.util.date.StrDateUtil;
 import com.franks.util.empty.EmptyUtil;
-import com.franks.util.empty.ValidUtils;
 import com.franks.util.exception.ApiException;
 
 /**
@@ -14,7 +13,7 @@ import com.franks.util.exception.ApiException;
  * @module
  * @date 2021/9/27 16:02
  */
-public class IDCardVaildUtil {
+public class IDCardValidUtil {
     //地区编码
     public static final String AREA_CODE = "(11|12|13|14|15|21|22|23|31|32|33|34|35|36|37|41|42|43|44|45|46|50|51|52|53|54|61|62|63|64|65|71|81|82|91)";
     //身份证最后一位

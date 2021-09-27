@@ -17,10 +17,11 @@
 |<a href="#model">model</a>|常用实体类|
 |<a href="#redis">redis</a>|redis工具类|
 |<a href="#redisson">redisson</a>|延迟队列|
-|<a href="#encrypt">encrypt</a>|数据加密,解密|
+|<a href="#param">param</a>|参数工具类|
 |<a href="#scheduler">scheduler</a>|动态定时任务|
 |<a href="#sign">sign</a>|加密|
 |<a href="#transition">transition</a>|数据类型转换|
+|<a href="#valid">valid</a>|验证工具类|
 
 ***
 
@@ -86,7 +87,6 @@
 |BaseExcelController|导入导出基础封装类|
 |EasyPoiUtils|导出工具类|
 |FranksExcelExportStylerImpl|导出样式类|
-
 
 ***
 
@@ -156,10 +156,9 @@ public void importSchool(MultipartFile excelFile){
 |RedissonConfig|Redisson配置|
 
 ### 使用场景
-* 支付二维码，定时失效，比如一个新的支付二维码，自动两个小时后失效。
-* 创建订单，30分钟未支付，自动取消订单
-以上场景，可以使用延迟的消息队列进行实现。最优解
 
+* 支付二维码，定时失效，比如一个新的支付二维码，自动两个小时后失效。
+* 创建订单，30分钟未支付，自动取消订单 以上场景，可以使用延迟的消息队列进行实现。最优解
 
 ### 使用示例
 
@@ -181,29 +180,25 @@ public class PayQCordListener implements RedisDelayedQueueListener<PayStateReqVO
 
 ***
 
-## <a id="encrypt">encrypt-数据加密，解密</a>
+## <a id="param">param-参数工具类</a>
 
-* 【EncryptField】、【EncryptFieldUtil】、【IEncryptField】、【IDecryptField】是基本的加密，解密工具，可以针对各种复杂使用场景，也可在此基础上自行封装。
-* 【PhoneEncrypt】、【PhoneEncryptUtil】是在基础之上，再次封装的手机号加密。
-* 【IDCardEncrypt】、【IDCardEncryptUtil】是在基础之上，再次封装的身份证号加密。
+* decrypt参数的解密的自定义注解，解密等。
+* encrypt参数的加密的自定义注解，加密，以及封装类。手机号，身份证的加密等。
+* vaild手机号、身份证的校验等。
 
 | 类名 | 功能 |
 | --- | --- |
-|EncryptField|基础-加密注解|
-|EncryptFieldUtil|基础-数据加密，解密|
-|IEncryptField|基础-数据加密接口|
-|IDecryptField|基础-数据解密接口|
-|PhoneEncrypt|简化功能-手机号加密注解|
-|PhoneEncryptUtil|简化功能-手机号加密|
-|IDCardEncrypt|简化功能-身份证加密注解|
-|IDCardEncryptUtil|简化功能-身份证加密|
-|EncryptUtil|简化功能-手机号，身份证加密工具类|
 
+|ParamUtil|加密、解密、校验| |DecryptField、IDecryptField|解密注解| |EncryptField、IEncryptField|加密注解|
+|IDCardEncrypt、IDCardEncryptAdvice|身份证加密注解（常用在返回参数）| |PhoneEncrypt、PhoneEncryptAdvice|手机号加密注解（常用在返回参数）|
+|IDCardValid、IDCardValidAdvice|身份证验证注解（常用在请求参数）| |PhoneValid、PhoneValidAdvice|手机号验证注解（常用在请求参数）|
 
 ### 使用场景
+
 * 用户的手机号，身份证号在持久化时，自行加密
 * 在数据库中获取的值是密文（例如用户手机号），自行解密
 * 返回前端时，把手机号等敏感信息，自行加密（示例如下）
+* 验证请求参数格式是否合法，手机号，身份证
 
 ### 使用示例
 
@@ -216,11 +211,12 @@ private String kindName;
 private String phone;
 @IDCardEncrypt
 private String idCard;
-......
+        ......
+
 //返回结果进行拦截处理
-@ControllerAdvice(basePackages = { "com.xxx.xxx.controller" })
+@ControllerAdvice(basePackages = {"com.xxx.xxx.controller"})
 public class ResponseMessageAdvice implements ResponseBodyAdvice<Object> {
-    
+
     @Override
     public Object beforeBodyWrite(Object object, MethodParameter methodParameter, MediaType mediaType,
                                   Class<? extends HttpMessageConverter<?>> converter, ServerHttpRequest request,
@@ -228,7 +224,7 @@ public class ResponseMessageAdvice implements ResponseBodyAdvice<Object> {
         EncryptFieldAdvice.encryptField(object, EncryptField.class, new IEncryptField() {
             @Override
             public String encrypt(String s) {
-                return SignUtils.MD5.createSign(s,"frank","utf-8");
+                return SignUtils.MD5.createSign(s, "frank", "utf-8");
             }
         });
         IDCardEncryptAdvice.encryptField(object);
@@ -297,3 +293,12 @@ public class PayQCordJob implements Job {
 | --- | --- |
 |MapUtil|转map对象|
 |ObjectUtil|转对象工具类|
+
+***
+
+## <a id="valid">valid-验证工具类</a>
+
+| 类名 | 功能 |
+| --- | --- |
+|IDCardValidUtil|身份证验证|
+|ValidUtils|常见数据格式验证|

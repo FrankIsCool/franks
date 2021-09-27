@@ -3,7 +3,7 @@ package com.franks.util.param;
 import com.franks.util.empty.EmptyUtil;
 import com.franks.util.param.encrypt.IEncryptField;
 import com.franks.util.param.decrypt.*;
-import com.franks.util.param.valid.IVaildField;
+import com.franks.util.param.valid.IValidField;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
@@ -103,23 +103,23 @@ public class ParamUtil {
      *
      * @param t               待校验对象
      * @param annotationClass 注解类型
-     * @param vaildField      校验
+     * @param validField      校验
      * @return void
      * @Author frank
      * @Date 2021/9/24 15:05
      */
-    public static <T> void vaildField(T t, Class<? extends Annotation> annotationClass, IVaildField vaildField) {
+    public static <T> void validField(T t, Class<? extends Annotation> annotationClass, IValidField validField) {
         getAllFields(t).stream().forEach(field -> {
             field.setAccessible(true);
             try {
                 Object o = field.get(t);
                 if (o instanceof Collection) {
-                    ((List) o).stream().forEach(obj -> vaildField(obj, annotationClass, vaildField));
+                    ((List) o).stream().forEach(obj -> validField(obj, annotationClass, validField));
                 } else if (field.getType().getName() == Object.class.getName()) {
-                    vaildField(o, annotationClass, vaildField);
+                    validField(o, annotationClass, validField);
                 } else if (field.isAnnotationPresent(annotationClass) && o instanceof String) {
                     if (EmptyUtil.isNotEmpty(o)) {
-                        vaildField.vaild((String) o);
+                        validField.vaild((String) o);
                     }
                 }
             } catch (IllegalAccessException e) {

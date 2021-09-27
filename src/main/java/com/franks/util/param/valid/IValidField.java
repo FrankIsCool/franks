@@ -7,7 +7,7 @@ package com.franks.util.param.valid;
  * @module
  * @date 2021/9/19 15:40
  */
-public interface IVaildField {
+public interface IValidField {
     /**
      * 校验
      *

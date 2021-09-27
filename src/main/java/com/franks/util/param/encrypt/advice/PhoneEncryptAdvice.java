@@ -1,9 +1,8 @@
 package com.franks.util.param.encrypt.advice;
 
+import com.franks.util.valid.ValidUtils;
 import com.franks.util.param.ParamUtil;
-import com.franks.util.param.encrypt.EncryptUtil;
 import com.franks.util.param.encrypt.annotation.PhoneEncrypt;
-import com.franks.util.empty.ValidUtils;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,6 +20,21 @@ public class PhoneEncryptAdvice {
      * @param t
      */
     public static <T> void encryptField(T t) {
-        ParamUtil.encryptField(t, PhoneEncrypt.class, content -> ValidUtils.isMobile(content) ? EncryptUtil.phoneEncry(content) : content);
+        ParamUtil.encryptField(t, PhoneEncrypt.class, PhoneEncryptAdvice::phoneEncry);
+    }
+
+    /**
+     * 手机号加密
+     *
+     * @param phone 手机号
+     * @return 134****001
+     * @author frank(付帅)
+     * @date 2020/7/7
+     **/
+    public static String phoneEncry(String phone) {
+        if (!ValidUtils.isMobile(phone)) {
+            return phone;
+        }
+        return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
     }
 }
