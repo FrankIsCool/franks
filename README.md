@@ -188,7 +188,6 @@ public class PayQCordListener implements RedisDelayedQueueListener<PayStateReqVO
 
 | 类名 | 功能 |
 | --- | --- |
-
 |ParamAdvice|加密、解密、校验| 
 |DecryptField、IDecryptField|解密注解| 
 |EncryptField、IEncryptField|加密注解|
