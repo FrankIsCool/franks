@@ -5,6 +5,7 @@
 | 包名 | 功能 |
 | --- | --- |
 |<a href="#amount">amount</a>|金额工具类|
+|<a href="#chinese">chinese</a>|中文工具类|
 |<a href="#context">context</a>|上下文工具类|
 |<a href="#date">date</a>|日期工具类|
 |<a href="#empty">empty</a>|检验工具类|
@@ -30,6 +31,14 @@
 | 类名 | 功能 |
 | --- | --- |
 |AmountUtil|转成大写金额|
+
+***
+
+## <a id="chinses">chinses-中文工具类</a>
+
+| 类名 | 功能 |
+| --- | --- |
+|ChineseHelper|简繁体转换|
 
 ***
 
