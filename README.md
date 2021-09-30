@@ -34,7 +34,7 @@
 
 ***
 
-## <a id="chinses">chinses-中文工具类</a>
+## <a id="chinese">chinese-中文工具类</a>
 
 | 类名 | 功能 |
 | --- | --- |
