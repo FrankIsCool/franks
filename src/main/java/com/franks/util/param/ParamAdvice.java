@@ -1,16 +1,14 @@
 package com.franks.util.param;
 
 import com.franks.util.empty.EmptyUtil;
+import com.franks.util.param.decrypt.IDecryptField;
 import com.franks.util.param.encrypt.IEncryptField;
-import com.franks.util.param.decrypt.*;
 import com.franks.util.param.valid.IValidField;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * 参数加密，解密
@@ -30,12 +28,20 @@ public class ParamAdvice {
      * @Date 2021/9/24 15:04
      */
     private static List<Field> getAllFields(Object object) {
-        Class clazz = object.getClass();
-        List<Field> fieldList = Arrays.asList(clazz.getDeclaredFields());
-        while ((clazz = clazz.getSuperclass()) != null) {
-            fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
+        if(object instanceof Number || object instanceof Map|| object instanceof Date){
+            return null;
         }
-        return fieldList;
+        try {
+            Class clazz = object.getClass();
+            List<Field> fieldList = Arrays.asList(clazz.getDeclaredFields());
+            while ((clazz = clazz.getSuperclass()) != null) {
+                fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
+            }
+            return fieldList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -53,14 +59,16 @@ public class ParamAdvice {
             field.setAccessible(true);
             try {
                 Object o = field.get(t);
-                if (o instanceof Collection) {
+                if (EmptyUtil.isEmpty(o) || o instanceof Number || o instanceof Map|| o instanceof Date) {
+                    return;
+                } else if (o instanceof Collection) {
                     ((List) o).stream().forEach(obj -> encryptField(obj, annotationClass, encryptField));
-                } else if (field.getType().getName() == Object.class.getName()) {
-                    encryptField(o, annotationClass, encryptField);
-                } else if (field.isAnnotationPresent(annotationClass) && o instanceof String) {
-                    if (EmptyUtil.isNotEmpty(o)) {
+                } else if (o instanceof CharSequence) {
+                    if (EmptyUtil.isNotEmpty(o) && field.isAnnotationPresent(annotationClass)) {
                         field.set(t, encryptField.encrypt((String) o));
                     }
+                } else {
+                    encryptField(o, annotationClass, encryptField);
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
