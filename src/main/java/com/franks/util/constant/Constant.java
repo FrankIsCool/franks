@@ -45,6 +45,10 @@ public class Constant {
      */
     public static final String SIGN_TYPE = "sign_type";
     /**
+     * signType
+     */
+    public static final String SIGNTYPE = "signType";
+    /**
      * signature
      */
     public static final String SIGNATURE = "signature";

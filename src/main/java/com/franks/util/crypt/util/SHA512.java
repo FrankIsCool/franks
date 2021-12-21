@@ -1,19 +1,17 @@
-package com.franks.util.sign;
+package com.franks.util.crypt.util;
 
 import com.franks.util.exception.ApiException;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.UnsupportedEncodingException;
 
-
 /**
- * SHA1签名
+ * SHA512签名
  *
  * @author frank
- * @date 2021/9/19 15:31
+ * @date 2021/9/19 15:32
  */
-public class SHA1 {
-
+public class SHA512 {
 
     /**
      * 签名字符串
@@ -25,9 +23,8 @@ public class SHA1 {
      */
     public static String sign(String text, String key, String characterEncoding) {
         //拼接key
-        text = text + key;
         try {
-            return DigestUtils.sha1Hex(text.getBytes(characterEncoding));
+            return DigestUtils.sha512Hex(text + key.getBytes(characterEncoding));
         } catch (UnsupportedEncodingException e) {
             throw new ApiException(e);
         }

@@ -15,7 +15,52 @@ import java.util.Date;
  */
 public class LongDateUtil {
 
-
+    /**
+     * Date转long
+     *
+     * @param date 时间
+     * @return
+     */
+    public static long toLong(Date date) {
+        return null == date ? null : date.getTime();
+    }
+    /**
+     * Instant转成Long
+     *
+     * @param date 时间
+     * @return
+     */
+    public static long toLong(Instant date) {
+        return null == date ? null : InstantDateUtil.toDate(date).getTime();
+    }
+    /**
+     * string转成Long
+     *
+     * @param date 时间
+     * @param format 时间格式
+     * @return
+     */
+    public static long toLong(String date, String format) {
+        return StrDateUtil.toDate(date,format).getTime();
+    }
+    /**
+     * string转成Long
+     *
+     * @param date 时间
+     * @return
+     */
+    public static long toLong(String date) {
+        return StrDateUtil.toDate(date).getTime();
+    }
+    /**
+     * Timestamp转成Long
+     *
+     * @param date 时间
+     * @return
+     */
+    public static long toLong(Timestamp date) {
+        return null == date ? null : date.getTime();
+    }
     /**
      * long转Date
      *

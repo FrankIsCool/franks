@@ -1,19 +1,17 @@
-package com.franks.util.sign;
-
+package com.franks.util.crypt.util;
 
 import com.franks.util.exception.ApiException;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.UnsupportedEncodingException;
 
-
 /**
- * MD5摘要
+ * SHA384签名
  *
  * @author frank
- * @date 2021/9/19 15:30
+ * @date 2021/9/19 15:32
  */
-public class MD5 {
+public class SHA384 {
 
     /**
      * 签名字符串
@@ -25,13 +23,13 @@ public class MD5 {
      */
     public static String sign(String text, String key, String characterEncoding) {
         //拼接key
-        text = text + key;
         try {
-            return DigestUtils.md5Hex(text.getBytes(characterEncoding));
+            return DigestUtils.sha384Hex(text + key.getBytes(characterEncoding));
         } catch (UnsupportedEncodingException e) {
             throw new ApiException(e);
         }
     }
+
 
     /**
      * 签名字符串
@@ -44,8 +42,7 @@ public class MD5 {
      */
     public static boolean verify(String text, String sign, String key, String characterEncoding) {
         //判断是否一样
-        return sign(text, key, characterEncoding).equals(sign.toUpperCase());
+        return sign(text, key, characterEncoding).toUpperCase().equals(sign.toUpperCase());
     }
-
 
 }

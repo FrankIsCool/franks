@@ -1,6 +1,7 @@
 package com.franks.util.date;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Calendar;
@@ -15,6 +16,56 @@ import java.util.GregorianCalendar;
  * @date 2021/9/4 14:50
  */
 public class DateUtil {
+    /**
+     * Instant转成Date
+     *
+     * @param date 时间戳
+     * @return
+     */
+    public static Date toDate(Instant date) {
+        return null == date ? null : Date.from(date);
+    }
+    /**
+     * long转Date
+     *
+     * @param date 时间戳
+     * @return
+     */
+    public static Date toDate(long date) {
+        return new Date(date);
+    }
+    /**
+     * String转Date
+     *
+     * @param data   日期字符串
+     * @param format 时间格式
+     * @return
+     */
+    public static Date toDate(String data, String format) {
+        try {
+            return new SimpleDateFormat(format).parse(data);
+        } catch (ParseException e) {
+            throw new RuntimeException("date string to date fail");
+        }
+    }
+    /**
+     * String转Date
+     *
+     * @param data 日期字符串
+     * @return
+     */
+    public static Date toDate(String data) {
+        return toDate(data,DateProperties.DATE_ALL);
+    }
+    /**
+     * Timestamp转成Date
+     *
+     * @param date 时间戳
+     * @return
+     */
+    public static Date toDate(Timestamp date) {
+        return null == date ? null : LongDateUtil.toDate(date.getTime());
+    }
     /**
      * Date转long
      *

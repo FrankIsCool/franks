@@ -23,7 +23,7 @@
  *
  */
 
-package com.franks.util.sign;
+package com.franks.util.crypt.util;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;

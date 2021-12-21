@@ -1,155 +1,14 @@
-package com.franks.util.sign;
-
+package com.franks.util.crypt.util;
 
 import com.franks.util.empty.EmptyUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.franks.util.constant.Constant.*;
 
-/**
- * 加密工具
- *
- * @author frank
- * @date 2021/9/19 15:30
- */
-public enum SignUtils {
+public class ParamUtil {
 
-    MD5 {
-        @Override
-        public String createSign(String content, String key, String characterEncoding) {
-
-            return com.franks.util.sign.MD5.sign(content, key, characterEncoding);
-        }
-
-        @Override
-        public boolean verify(String text, String sign, String key, String characterEncoding) {
-            return com.franks.util.sign.MD5.verify(text, sign, key, characterEncoding);
-        }
-
-        @Override
-        public String decrypt(String sign, String key, String characterEncoding) {
-            return null;
-        }
-    },
-
-    RSA {
-        @Override
-        public String createSign(String content, String key, String characterEncoding) {
-            return com.franks.util.sign.RSA.sign(content, key, characterEncoding);
-        }
-
-        @Override
-        public boolean verify(String text, String sign, String publicKey, String characterEncoding) {
-            return com.franks.util.sign.RSA.verify(text, sign, publicKey, characterEncoding);
-        }
-
-        @Override
-        public String decrypt(String sign, String key, String characterEncoding) {
-            return com.franks.util.sign.RSA.decrypt(sign, key, characterEncoding);
-        }
-    },
-
-    RSA2 {
-        @Override
-        public String createSign(String content, String key, String characterEncoding) {
-            return com.franks.util.sign.RSA2.sign(content, key, characterEncoding);
-        }
-
-        @Override
-        public boolean verify(String text, String sign, String publicKey, String characterEncoding) {
-            return com.franks.util.sign.RSA2.verify(text, sign, publicKey, characterEncoding);
-        }
-
-        @Override
-        public String decrypt(String sign, String key, String characterEncoding) {
-            return com.franks.util.sign.RSA2.decrypt(sign, key, characterEncoding);
-        }
-    },
-    SHA1 {
-        @Override
-        public String createSign(String content, String key, String characterEncoding) {
-            return com.franks.util.sign.SHA1.sign(content, key, characterEncoding);
-        }
-
-        @Override
-        public boolean verify(String text, String sign, String publicKey, String characterEncoding) {
-            return com.franks.util.sign.SHA1.verify(text, sign, publicKey, characterEncoding);
-        }
-
-        @Override
-        public String decrypt(String sign, String key, String characterEncoding) {
-            return null;
-        }
-    },
-    SHA256 {
-        @Override
-        public String createSign(String content, String key, String characterEncoding) {
-            return com.franks.util.sign.SHA256.sign(content, key, characterEncoding);
-        }
-
-        @Override
-        public boolean verify(String text, String sign, String publicKey, String characterEncoding) {
-            return com.franks.util.sign.SHA256.verify(text, sign, publicKey, characterEncoding);
-        }
-
-        @Override
-        public String decrypt(String sign, String key, String characterEncoding) {
-            return null;
-        }
-    },
-    SM3 {
-        @Override
-        public String createSign(String content, String key, String characterEncoding) {
-            return com.franks.util.sign.RSA2.sign(content, key, characterEncoding);
-        }
-
-        @Override
-        public boolean verify(String text, String sign, String publicKey, String characterEncoding) {
-            return com.franks.util.sign.RSA2.verify(text, sign, publicKey, characterEncoding);
-        }
-
-        @Override
-        public String decrypt(String sign, String key, String characterEncoding) {
-            return com.franks.util.sign.RSA2.decrypt(sign, key, characterEncoding);
-        }
-    };
-
-    protected static final Log log = LogFactory.getLog(SignUtils.class);
-
-    /**
-     * 加密
-     *
-     * @param content           需要签名的内容
-     * @param key               密钥
-     * @param characterEncoding 字符编码
-     * @return 签名值
-     */
-    public abstract String createSign(String content, String key, String characterEncoding);
-
-    /**
-     * 验签
-     *
-     * @param text              需要签名的字符串
-     * @param sign              密文
-     * @param key               密钥
-     * @param characterEncoding 编码格式
-     * @return 签名结果
-     */
-    public abstract boolean verify(String text, String sign, String key, String characterEncoding);
-
-    /**
-     * 解密
-     *
-     * @param sign              密文
-     * @param key               密钥
-     * @param characterEncoding 编码格式
-     * @return 签名结果
-     */
-    public abstract String decrypt(String sign, String key, String characterEncoding);
 
     /**
      * 根据条件移除不参与加密的key
@@ -220,7 +79,7 @@ public enum SignUtils {
     }
 
     /**
-     * 拼接字符串
+     * 拼接字符串-格式：key=value[separator]key=value
      *
      * @param parameters 待处理数据
      * @param separator  数据分隔符
@@ -244,7 +103,7 @@ public enum SignUtils {
             return sb.toString();
         }
         //未排序须处理
-        List<String> keys = new ArrayList<String>(parameters.keySet());
+        List<String> keys = new ArrayList<>(parameters.keySet());
         //排序
         Collections.sort(keys);
         keys.stream().forEach(key -> {
@@ -257,7 +116,7 @@ public enum SignUtils {
     }
 
     /**
-     * 拼接字符串-数据的value
+     * 拼接字符串-格式：value[separator]value
      *
      * @param parameters 待处理数据
      * @param separator  数据分隔符
@@ -294,7 +153,7 @@ public enum SignUtils {
     }
 
     /**
-     * 拼接字符串-数据的key
+     * 拼接字符串-key[separator]key
      *
      * @param parameters 待处理数据
      * @param separator  数据分隔符
@@ -336,23 +195,35 @@ public enum SignUtils {
      * 空值不计算在内
      *
      * @param parameters 参数
+     * @param inNull     是否包含空值
+     * @param ignoreKey  需要忽略添加的key
+     * @return 新签名
+     */
+    private static Map parameterText(Map parameters, Boolean inNull, String... ignoreKey) {
+        if (EmptyUtil.isEmpty(parameters)) {
+            return null;
+        }
+        if (inNull) {
+            return paramValues(paramIgnoreKey(parameters, ignoreKey));
+        }
+        return paramValues(paramIgnoreNull(paramIgnoreKey(parameters, ignoreKey)));
+    }
+
+    /**
+     * 拼接字符串
+     * 示例：参数=参数值[separator]参数=参数值
+     * 空值不计算在内
+     *
+     * @param parameters 参数
      * @param separator  分隔符
      * @param inNull     是否包含空值
      * @param ignoreKey  需要忽略添加的key
      * @return 新签名
      */
     public static String parameterText(Map parameters, String separator, Boolean inNull, String... ignoreKey) {
-        if (EmptyUtil.isEmpty(separator)) {
-            separator = BLANK_STR;
-        }
-        if (EmptyUtil.isEmpty(parameters)) {
-            return BLANK_STR;
-        }
-        if (inNull) {
-            return paramToStr(paramValues(paramIgnoreKey(parameters, ignoreKey)), separator);
-        }
-        return paramToStr(paramValues(paramIgnoreNull(paramIgnoreKey(parameters, ignoreKey))), separator);
+        return paramToStr(parameterText(parameters,inNull,ignoreKey), separator);
     }
+
 
     /**
      * 把数组所有元素排序，并按照“参数=参数值”的模式用“@param separator”字符拼接成字符串
@@ -384,13 +255,11 @@ public enum SignUtils {
      * @return 去掉空值与签名参数后的新签名，拼接后字符串
      */
     public static String parameterText(Map parameters, String separator, Boolean inNull) {
-        return parameterText(parameters, separator, inNull, SIGNATURE, SIGN, KEY, SIGN_TYPE);
+        return parameterText(parameters, separator, inNull, SIGNATURE, SIGN, KEY, SIGN_TYPE,SIGNTYPE);
     }
 
     /**
-     * 拼接字符串
-     * 示例：参数值[separator]参数值
-     * 空值计算在内
+     * 把数组所有元素排序，并按照“参数值”的模式用“@param separator”字符拼接成字符串
      *
      * @param parameters 参数
      * @param separator  分隔符
@@ -399,22 +268,42 @@ public enum SignUtils {
      * @return 新签名
      */
     public static String parameterValueText(Map parameters, String separator, Boolean inNull, String... ignoreKey) {
-        if (EmptyUtil.isEmpty(separator)) {
-            separator = BLANK_STR;
-        }
-        if (EmptyUtil.isEmpty(parameters)) {
-            return BLANK_STR;
-        }
-        if (inNull) {
-            return paramValueToStr(paramValues(paramIgnoreKey(parameters, ignoreKey)), separator);
-        }
-        return paramValueToStr(paramValues(paramIgnoreNull(paramIgnoreKey(parameters, ignoreKey))), separator);
+        return paramValueToStr(parameterText(parameters,inNull,ignoreKey), separator);
+    }
+    /**
+     * 把数组所有元素排序，并按照“参数值”的模式用“@param separator”字符拼接成字符串
+     *
+     * @param parameters 参数
+     * @return 去掉空值与签名参数后的新签名，拼接后字符串
+     */
+    public static String parameterValueText(Map parameters) {
+        return parameterValueText(parameters, AND);
+
     }
 
     /**
-     * 拼接字符串
-     * 示例：参数值[separator]参数值
-     * 空值计算在内
+     * 把数组所有元素排序，并按照“参数值”的模式用“@param separator”字符拼接成字符串
+     *
+     * @param parameters 参数
+     * @param separator  分隔符
+     * @return 去掉空值与签名参数后的新签名，拼接后字符串
+     */
+    public static String parameterValueText(Map parameters, String separator) {
+        return parameterValueText(parameters, separator, Boolean.FALSE);
+    }
+
+    /**
+     * 把数组所有元素排序，并按照“参数值”的模式用“@param separator”字符拼接成字符串
+     *
+     * @param parameters 参数
+     * @param separator  分隔符
+     * @return 去掉空值与签名参数后的新签名，拼接后字符串
+     */
+    public static String parameterValueText(Map parameters, String separator, Boolean inNull) {
+        return parameterValueText(parameters, separator, inNull, SIGNATURE, SIGN, KEY, SIGN_TYPE,SIGNTYPE);
+    }
+    /**
+     * 把数组所有元素排序，并按照“参数”的模式用“@param separator”字符拼接成字符串
      *
      * @param parameters 参数
      * @param separator  分隔符
@@ -423,54 +312,38 @@ public enum SignUtils {
      * @return 新签名
      */
     public static String parameterKeyText(Map parameters, String separator, Boolean inNull, String... ignoreKey) {
-        if (EmptyUtil.isEmpty(separator)) {
-            separator = BLANK_STR;
-        }
-        if (EmptyUtil.isEmpty(parameters)) {
-            return BLANK_STR;
-        }
-        if (inNull) {
-            return paramKeyToStr(paramValues(paramIgnoreKey(parameters, ignoreKey)), separator);
-        }
-        return paramKeyToStr(paramValues(paramIgnoreNull(paramIgnoreKey(parameters, ignoreKey))), separator);
+        return paramKeyToStr(parameterText(parameters,inNull,ignoreKey), separator);
+    }
+    /**
+     * 把数组所有元素排序，并按照“参数”的模式用“@param separator”字符拼接成字符串
+     *
+     * @param parameters 参数
+     * @return 去掉空值与签名参数后的新签名，拼接后字符串
+     */
+    public static String parameterKeyText(Map parameters) {
+        return parameterKeyText(parameters, AND);
+
     }
 
     /**
-     * 签名
+     * 把数组所有元素排序，并按照“参数”的模式用“@param separator”字符拼接成字符串
      *
-     * @param parameters        需要进行排序签名的参数
-     * @param key               密钥
-     * @param characterEncoding 编码格式
-     * @return 签名值
+     * @param parameters 参数
+     * @param separator  分隔符
+     * @return 去掉空值与签名参数后的新签名，拼接后字符串
      */
-    public String sign(Map parameters, String key, String characterEncoding) {
-        return sign(parameters, AND, key, characterEncoding);
+    public static String parameterKeyText(Map parameters, String separator) {
+        return parameterKeyText(parameters, separator, Boolean.FALSE);
     }
 
     /**
-     * 签名
+     * 把数组所有元素排序，并按照“参数”的模式用“@param separator”字符拼接成字符串
      *
-     * @param parameters        需要进行排序签名的参数
-     * @param key               密钥
-     * @param separator         分隔符  默认 &amp;
-     * @param characterEncoding 编码格式
-     * @return 签名值
+     * @param parameters 参数
+     * @param separator  分隔符
+     * @return 去掉空值与签名参数后的新签名，拼接后字符串
      */
-    public String sign(Map parameters, String key, String separator, String characterEncoding) {
-        return createSign(parameterText(parameters, separator), key, characterEncoding);
-    }
-
-    /**
-     * 签名字符串
-     *
-     * @param params            需要签名的字符串
-     * @param sign              签名结果
-     * @param key               密钥
-     * @param characterEncoding 编码格式
-     * @return 签名结果
-     */
-    public boolean verify(Map params, String sign, String key, String characterEncoding) {
-        //判断是否一样
-        return this.verify(parameterText(params), sign, key, characterEncoding);
+    public static String parameterKeyText(Map parameters, String separator, Boolean inNull) {
+        return parameterKeyText(parameters, separator, inNull, SIGNATURE, SIGN, KEY, SIGN_TYPE,SIGNTYPE);
     }
 }
