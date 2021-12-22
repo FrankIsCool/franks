@@ -5,6 +5,7 @@ package com.franks.util.crypt.util;
 import com.franks.util.constant.Constant;
 
 import javax.crypto.Cipher;
+import java.nio.charset.Charset;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -142,14 +143,8 @@ public class RSABase {
      * @return 密文
      */
     public static String encrypt(String content, String publicKey) {
-        try {
-            return encrypt(content, getPublic(publicKey));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        return encrypt(content, publicKey,Constant.CHARSET);
     }
-
     /**
      * RSA公钥加密
      *
@@ -157,11 +152,26 @@ public class RSABase {
      * @param publicKey 公钥
      * @return 密文
      */
-    protected static String encrypt(String content, PublicKey publicKey) {
+    public static String encrypt(String content, String publicKey,String characterEncoding) {
+        try {
+            return encrypt(content, getPublic(publicKey),characterEncoding);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * RSA公钥加密
+     *
+     * @param content   加密字符串
+     * @param publicKey 公钥
+     * @return 密文
+     */
+    protected static String encrypt(String content, PublicKey publicKey,String characterEncoding) {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-            return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes(Constant.CHARSET)));
+            return Base64.getEncoder().encodeToString(cipher.doFinal(content.getBytes(characterEncoding)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -176,14 +186,8 @@ public class RSABase {
      * @return 明文
      */
     public static String decrypt(String encrypt, String privateKey) {
-        try {
-            return decrypt(encrypt, getPrivate(privateKey));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        return decrypt(encrypt, privateKey,Constant.CHARSET);
     }
-
     /**
      * RSA私钥解密
      *
@@ -191,11 +195,26 @@ public class RSABase {
      * @param privateKey 私钥
      * @return 明文
      */
-    protected static String decrypt(String encrypt, PrivateKey privateKey) {
+    public static String decrypt(String encrypt, String privateKey,String characterEncoding) {
+        try {
+            return decrypt(encrypt, getPrivate(privateKey),characterEncoding);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * RSA私钥解密
+     *
+     * @param encrypt    待解密字符串
+     * @param privateKey 私钥
+     * @return 明文
+     */
+    protected static String decrypt(String encrypt, PrivateKey privateKey,String characterEncoding) {
         try {
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
-            return new String(cipher.doFinal(Base64.decode(encrypt)));
+            return new String(cipher.doFinal(Base64.decode(encrypt)), Charset.forName(characterEncoding));
         } catch (Exception e) {
             e.printStackTrace();
         }

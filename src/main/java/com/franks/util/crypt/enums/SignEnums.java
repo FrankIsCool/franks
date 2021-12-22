@@ -15,7 +15,7 @@ import static com.franks.util.constant.Constant.CHARSET;
  * @author frank
  * @date 2021/9/19 15:30
  */
-public enum SignUtils {
+public enum SignEnums {
     BASE64 {
         @Override
         public String sign(String content, String key, String characterEncoding) {

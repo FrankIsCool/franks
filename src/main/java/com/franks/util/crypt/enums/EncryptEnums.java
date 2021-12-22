@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
  * @author frank
  * @date 2021/9/19 15:30
  */
-public enum EncryptUtils {
+public enum EncryptEnums {
     BASE64 {
         @Override
         public String encrypt(String content, String key, String characterEncoding) {
@@ -23,48 +23,26 @@ public enum EncryptUtils {
             return (new String(Base64.decode(sign), Charset.forName(characterEncoding)).split(key))[0];
         }
     },
-    MD2 {
+    DES {
         @Override
         public String encrypt(String content, String publicKey, String characterEncoding) {
-            return null;
+            return com.franks.util.crypt.util.DES.encrypt(content,publicKey,characterEncoding);
         }
 
         @Override
         public String decrypt(String sign, String privateKey, String characterEncoding) {
-            return null;
-        }
-    },
-    MD5 {
-        @Override
-        public String encrypt(String content, String publicKey, String characterEncoding) {
-            return null;
-        }
-
-        @Override
-        public String decrypt(String sign, String privateKey, String characterEncoding) {
-            return null;
+            return com.franks.util.crypt.util.DES.decrypt(sign,privateKey,characterEncoding);
         }
     },
     RSA {
         @Override
         public String encrypt(String content, String publicKey, String characterEncoding) {
-            return com.franks.util.crypt.util.RSA.encrypt(content, publicKey);
+            return com.franks.util.crypt.util.RSA.encrypt(content, publicKey,characterEncoding);
         }
 
         @Override
         public String decrypt(String sign, String privateKey, String characterEncoding) {
-            return com.franks.util.crypt.util.RSA.decrypt(sign, privateKey);
-        }
-    },
-    RSA2 {
-        @Override
-        public String encrypt(String content, String publicKey, String characterEncoding) {
-            return com.franks.util.crypt.util.RSA.encrypt(content, publicKey);
-        }
-
-        @Override
-        public String decrypt(String sign, String privateKey, String characterEncoding) {
-            return com.franks.util.crypt.util.RSA.decrypt(sign, privateKey);
+            return com.franks.util.crypt.util.RSA.decrypt(sign, privateKey,characterEncoding);
         }
     },
     SHA1 {
