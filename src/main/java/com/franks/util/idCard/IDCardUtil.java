@@ -104,6 +104,20 @@ public class IDCardUtil {
         }
         return 2;
     }
-
+    /**
+     * 身份证加密
+     *
+     * @param idCard 身份证
+     * @return
+     */
+    public static String idCardEncrypt(String idCard) {
+        if (!isIDCard(idCard)) {
+            return idCard;
+        }
+        if(idCard.length()==15){
+            return idCard.replaceAll("(\\d{4})\\d{7}(\\d{4})", "$1**********$2");
+        }
+        return idCard.replaceAll("(\\d{4})\\d{10}(\\d{4})", "$1**********$2");
+    }
 }
 

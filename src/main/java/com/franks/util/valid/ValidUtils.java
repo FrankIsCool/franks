@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * @date 2021/9/18 11:16
  */
 public class ValidUtils {
-    // 手机号码正则
+    //手机号码正则
     public static final String isPhoneNumber = "(13\\d|14[57]|15[^4,\\D]|17[678]|18\\d)\\d{8}|170[059]\\d{7}";
     // 验证网址Url
     public static final String isHttpUrl = "http(s)?://([\\w-]+\\.)+[\\w-]+(/[\\w- ./?%&=]*)?";
