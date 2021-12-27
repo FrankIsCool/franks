@@ -45,11 +45,7 @@ public class AgeUtil {
      * @Date 2021/12/27 11:26
      */
     public static Integer getAge2(String birthDate) {
-        birthDate = birthDate.replace("-", "");
-        if (!ValidUtils.isBirthday2(birthDate)) {
-            throw new RuntimeException("出生日期格式错误");
-        }
-        return getAge(birthDate.replaceAll("(\\d{4})(\\d{2})(\\d{2})", "$1-$2-$3"));
+        return getAge(birthDate.replace("-", "").replaceAll("(\\d{4})(\\d{2})(\\d{2})", "$1-$2-$3"));
     }
 
     /**

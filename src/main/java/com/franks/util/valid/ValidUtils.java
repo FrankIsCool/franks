@@ -19,9 +19,7 @@ public class ValidUtils {
     // 验证设备号
     public static final String isImei = "^[0-9A-Za-z]{14,70}$";
     // 验证用户的生日(yyyy-mm-dd)格式
-    public static final String isBirthday = "(18|19|20|21)[0-9][0-9]-(([0][1-9])|([1][0-2]))-(([0][1-9])|([1-2][0-9])|([3][0-1]))";
-    // 验证用户的生日(yyyymmdd)格式
-    public static final String isBirthday2 = "(18|19|20|21)[0-9][0-9](([0][1-9])|([1][0-2]))(([0][1-9])|([1-2][0-9])|([3][0-1]))";
+    public static final String isBirthday = "([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8])))";
     // 只能输入非零的正整数
     public static final String isPositiveInteger = "^\\+?[1-9][0-9]*$";
     //判断是否为汉字
@@ -126,15 +124,6 @@ public class ValidUtils {
      */
     public static boolean isBirthday(String birthday) {
         return valid(isBirthday, birthday);
-    }
-    /**
-     * 判断生日(yyyymmdd)
-     *
-     * @Author frank
-     * @Date 2021/9/18 11:20
-     */
-    public static boolean isBirthday2(String birthday) {
-        return valid(isBirthday2, birthday);
     }
     /**
      * 判断网址
