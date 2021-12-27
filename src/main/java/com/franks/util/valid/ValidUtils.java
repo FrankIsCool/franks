@@ -1,5 +1,7 @@
 package com.franks.util.valid;
 
+import com.franks.util.idCard.IDCardUtil;
+
 import java.util.regex.Pattern;
 
 /**
@@ -182,7 +184,7 @@ public class ValidUtils {
      * @Date 2021/9/18 11:20
      */
     public static boolean isIDCard(String idCard) {
-        return IDCardValidUtil.isIDCard(idCard);
+        return IDCardUtil.isIDCard(idCard);
     }
 
     /**

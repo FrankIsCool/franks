@@ -3,7 +3,7 @@ package com.franks.util.age;
 import com.franks.util.date.DateProperties;
 import com.franks.util.date.DateUtil;
 import com.franks.util.date.StrDateUtil;
-import com.franks.util.valid.IDCardValidUtil;
+import com.franks.util.idCard.IDCardUtil;
 import com.franks.util.valid.ValidUtils;
 
 import java.util.Date;
@@ -61,6 +61,6 @@ public class AgeUtil {
      * @Date 2021/12/27 11:26
      */
     public static Integer getAgeByIdCard(String idCard) {
-        return getAge2(IDCardValidUtil.getBirthDate(idCard));
+        return getAge2(IDCardUtil.getBirthDate(idCard));
     }
 }
