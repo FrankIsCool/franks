@@ -3,7 +3,8 @@ package com.franks.util.phone;
 import com.franks.util.valid.ValidUtils;
 
 public class PhoneUtil {
-
+    //手机号码正则
+    public static final String isPhoneNumber = "(13\\d|14[57]|15[^4,\\D]|17[678]|18\\d)\\d{8}|170[059]\\d{7}";
     /**
      * 手机号加密
      *
@@ -13,7 +14,7 @@ public class PhoneUtil {
      * @date 2020/7/7
      **/
     public static String phoneEncry(String phone) {
-        if (!ValidUtils.isMobile(phone)) {
+        if (!isPhone(phone)) {
             return phone;
         }
         return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
@@ -26,6 +27,6 @@ public class PhoneUtil {
      * @Date 2021/9/18 11:20
      */
     public static boolean isPhone(String mobile) {
-        return ValidUtils.isMobile(mobile);
+        return ValidUtils.valid(isPhoneNumber,mobile);
     }
 }
