@@ -18,13 +18,80 @@ public class ValidUtils {
     // 验证设备号
     public static final String isImei = "^[0-9A-Za-z]{14,70}$";
     // 验证用户的生日(yyyy-mm-dd)格式
-    public static final String isBirthday = "\\d{4}-\\d{2}-\\d{2}";
+    public static final String isBirthday = "(18|19|20|21)[0-9][0-9]-(([0][1-9])|([1][0-2]))-(([0][1-9])|([1-2][0-9])|([3][0-1]))";
+    // 验证用户的生日(yyyymmdd)格式
+    public static final String isBirthday2 = "(18|19|20|21)[0-9][0-9](([0][1-9])|([1][0-2]))(([0][1-9])|([1-2][0-9])|([3][0-1]))";
     // 只能输入非零的正整数
     public static final String isPositiveInteger = "^\\+?[1-9][0-9]*$";
     //判断是否为汉字
     public static final String isChinese = "^[\u4e00-\u9fa5]+$";
     //判断是否ip地址
     public static final String isIP = "(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)";
+    //微信支付流水号规则
+    public static final String isWxPaySn = "([0-9A-Za-z]|[\\-\\_\\|\\*]){1,32}";
+    //微信退费流水号规则
+    public static final String isWxRefundSn = "([0-9A-Za-z]|[\\-\\_\\|\\*\\@]){1,64}";
+    //支付宝支付流水号规则
+    public static final String isALIPaySn = "([0-9A-Za-z]|[\\_]){1,64}";
+    //京东支付流水号规则
+    public static final String isJDPaySn = "([0-9A-Za-z]){1,32}";
+    /**
+     * 判断微信支付流水号
+     *
+     * @Author frank
+     * @Date 2021/9/18 11:20
+     */
+    public static boolean isWxPaySn(String paySn) {
+        return valid(isWxPaySn, paySn);
+    }
+    /**
+     * 判断微信退费流水号
+     *
+     * @Author frank
+     * @Date 2021/9/18 11:20
+     */
+    public static boolean isWxRefundSn(String refundSn) {
+        return valid(isWxRefundSn, refundSn);
+    }
+    /**
+     * 判断支付宝支付流水号
+     *
+     * @Author frank
+     * @Date 2021/9/18 11:20
+     */
+    public static boolean isALIPaySn(String paySn) {
+        return valid(isALIPaySn, paySn);
+    }
+    /**
+     * 判断支付宝退费流水号
+     *
+     * @Author frank
+     * @Date 2021/9/18 11:20
+     */
+    public static boolean isALIRefundSn(String refundSn) {
+        return valid(isALIPaySn, refundSn);
+    }
+    /**
+     * 判断京东支付流水号
+     *
+     * @Author frank
+     * @Date 2021/9/18 11:20
+     */
+    public static boolean isJDPaySn(String paySn) {
+        return valid(isJDPaySn, paySn);
+    }
+
+    /**
+     * 判断京东退费流水号
+     *
+     * @Author frank
+     * @Date 2021/9/18 11:20
+     */
+    public static boolean isJDRefundSn(String refundSn) {
+        return valid(isJDPaySn, refundSn);
+    }
+
+
 
     public static boolean valid(String regex, CharSequence input) {
         return Pattern.compile(regex).matcher(input).matches();
@@ -69,7 +136,15 @@ public class ValidUtils {
     public static boolean isBirthday(String birthday) {
         return valid(isBirthday, birthday);
     }
-
+    /**
+     * 判断生日(yyyymmdd)
+     *
+     * @Author frank
+     * @Date 2021/9/18 11:20
+     */
+    public static boolean isBirthday2(String birthday) {
+        return valid(isBirthday2, birthday);
+    }
     /**
      * 判断网址
      *

@@ -27,9 +27,7 @@ public class DES {
      * @throws Exception
      */
     private static Key generateKey(String key) throws Exception {
-        DESKeySpec dks = new DESKeySpec(key.getBytes(Constant.CHARSET));
-        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
-        return keyFactory.generateSecret(dks);
+        return SecretKeyFactory.getInstance(ALGORITHM).generateSecret(new DESKeySpec(key.getBytes(Constant.CHARSET)));
     }
 
 

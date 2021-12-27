@@ -47,7 +47,6 @@ public class XMLUtil {
      * @Date 2021/9/30 16:58
      */
     public static <T> T toObject(String xmlStr, Class<T> clazz) {
-//        try {
         try {
             return (T) JAXBContext.newInstance(clazz).createUnmarshaller().unmarshal(new StringReader(xmlStr));
         } catch (JAXBException e) {

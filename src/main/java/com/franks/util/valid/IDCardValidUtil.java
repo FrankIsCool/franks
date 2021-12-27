@@ -6,6 +6,8 @@ import com.franks.util.date.StrDateUtil;
 import com.franks.util.empty.EmptyUtil;
 import com.franks.util.exception.ApiException;
 
+import java.util.Date;
+
 /**
  * 身份证号校验
  *
@@ -64,6 +66,9 @@ public class IDCardValidUtil {
      * @Date 2021/9/27 16:24
      */
     public static String getBirthDate(String idCard) {
+        if(!isIDCard(idCard)){
+            throw new RuntimeException("身份证格式错误");
+        }
         String birthDate = DateUtil.toStr(StrDateUtil.toDate(idCard.substring(6, 14), DateProperties.DATE_2_YEAR_MONTH_DAY), DateProperties.DATE_2_YEAR_MONTH_DAY);
         if (!birthDate.equals(idCard.substring(6, 14))) {
             throw new ApiException("身份格式错误");
