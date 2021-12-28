@@ -1,9 +1,9 @@
 package com.franks.util.param.valid.advice;
 
-import com.franks.util.param.ParamAdvice;
 import com.franks.util.exception.ApiException;
-import com.franks.util.valid.ValidUtils;
+import com.franks.util.param.ParamAdvice;
 import com.franks.util.param.valid.annotation.PhoneValid;
+import com.franks.util.phone.PhoneUtil;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,7 +22,7 @@ public class PhoneValidAdvice {
      */
     public static <T> void validField(T t) {
         ParamAdvice.validField(t, PhoneValid.class, content -> {
-            if (ValidUtils.isMobile(content)) {
+            if (PhoneUtil.isPhone(content)) {
                 throw new ApiException("手机号格式错误");
             }
         });
