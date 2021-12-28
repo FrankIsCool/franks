@@ -29,9 +29,9 @@ import java.util.List;
  * @date 2021/7/24 15:17
  */
 @Service
-public class BaseExcelController {
+public class BaseExcelService {
 
-    private final Logger log = LoggerFactory.getLogger(BaseExcelController.class);
+    private final Logger log = LoggerFactory.getLogger(BaseExcelService.class);
 
     @Autowired
     private EasyPoiUtils easyPoiUtils;
