@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.frank</groupId>
-    <artifactId>franks</artifactId>
-    <version>1.0.0</version>
+    <artifactId>util</artifactId>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>franks</name>

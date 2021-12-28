@@ -123,8 +123,9 @@ public class Constant {
 
     public static final String SUCCESS_EN_MSG = "SUCCESS";
 
-    public static final String SUCCESS_CODE = "200";
+    public static final String SUCCESS_CODE_STR = "200";
 
+    public static final Integer SUCCESS_CODE = 200;
     /**
      * 操作失败
      */
@@ -132,5 +133,15 @@ public class Constant {
 
     public static final String FAIL_EN_MSG = "FAIL";
 
-    public static final String FAIL_CODE = "500";
+    public static final String FAIL_CODE_STR = "500";
+
+    public static final Integer FAIL_CODE = 500;
+
+    public static final Integer FAIL_CODE_600 = 600;
+
+    public static final Integer FAIL_CODE_404 = 404;
+
+    public static final Integer FAIL_CODE_1046 = 1046;
+
+    public static final Integer FAIL_CODE_1036 = 1036;
 }

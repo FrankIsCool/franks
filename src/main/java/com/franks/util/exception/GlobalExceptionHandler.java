@@ -18,6 +18,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.franks.util.constant.Constant.*;
+import static com.franks.util.constant.Constant.FAIL_CODE_1036;
+
 /**
  * 异常拦截
  *
@@ -44,7 +47,7 @@ public class GlobalExceptionHandler {
             mapErrFields.put(err.getField(), err.getDefaultMessage());
         }
         logger.error("请求的参数有误",mapErrFields);
-        return ApiResponse.of("600", "请求的参数有误: " + mapErrFields.values(), mapErrFields);
+        return ApiResponse.of(FAIL_CODE_600, "请求的参数有误: " + mapErrFields.values(), mapErrFields);
     }
 
     /**
@@ -62,7 +65,7 @@ public class GlobalExceptionHandler {
             mapErrFields.put(err.getField(), err.getDefaultMessage());
         }
         logger.error("请求的参数有误",mapErrFields);
-        return ApiResponse.of("600", "请求的参数有误: " + mapErrFields.values(), mapErrFields);
+        return ApiResponse.of(FAIL_CODE_600, "请求的参数有误: " + mapErrFields.values(), mapErrFields);
     }
 
     /**
@@ -90,7 +93,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public ApiResponse noHandlerFoundExceptionHandler(HttpServletRequest request, NoHandlerFoundException exception) {
         logger.error("该功能未找到",exception);
-        return ApiResponse.error("404", "该功能未找到");
+        return ApiResponse.error(FAIL_CODE_404, "该功能未找到");
     }
 
     /**
@@ -104,7 +107,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SQLException.class)
     public ApiResponse sqlExceptionHandler(HttpServletRequest request, SQLException exception) {
         logger.error("数据库处理异常",exception);
-        return ApiResponse.error("1046", "数据库处理异常");
+        return ApiResponse.error(FAIL_CODE_1046, "数据库处理异常");
     }
 
     /**
@@ -118,7 +121,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataAccessException.class)
     public ApiResponse dataAccessExceptionHandler(HttpServletRequest request, DataAccessException exception) {
         logger.error("数据库异常",exception);
-        return ApiResponse.error("1036", "数据库异常");
+        return ApiResponse.error(FAIL_CODE_1036, "数据库异常");
     }
 
     /**
@@ -132,7 +135,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadSqlGrammarException.class)
     public ApiResponse badSqlGrammarExceptionHandler(HttpServletRequest request, BadSqlGrammarException exception) {
         logger.error("数据库异常",exception);
-        return ApiResponse.error("1036", "数据库异常");
+        return ApiResponse.error(FAIL_CODE_1036, "数据库异常");
     }
 
     /**
@@ -146,6 +149,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ApiResponse defaultErrorHandler(HttpServletRequest request, Exception exception) {
         logger.error("默认异常处理",exception);
-        return ApiResponse.error("500", exception.getMessage());
+        return ApiResponse.error(FAIL_CODE, exception.getMessage());
     }
 }

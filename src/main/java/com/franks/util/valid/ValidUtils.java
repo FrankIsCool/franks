@@ -34,6 +34,17 @@ public class ValidUtils {
     public static final String isALIPaySn = "([0-9A-Za-z]|[\\_]){1,64}";
     //京东支付流水号规则
     public static final String isJDPaySn = "([0-9A-Za-z]){1,32}";
+    //建行支付流水号规则
+    public static final String isCBPaySn = "([0-9A-Za-z]|[\\_]){1,30}";
+    /**
+     * 判断建行支付流水号
+     *
+     * @Author frank
+     * @Date 2021/9/18 11:20
+     */
+    public static boolean isCBPaySn(String paySn) {
+        return valid(isCBPaySn, paySn);
+    }
     /**
      * 判断微信支付流水号
      *

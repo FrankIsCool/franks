@@ -3,6 +3,7 @@ package com.franks.util.model;
 import com.franks.util.constant.Constant;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 
 /**
@@ -18,7 +19,7 @@ public class ApiResponse<T> {
      * 返回码
      */
     @ApiModelProperty("返回码")
-    private String code;
+    private Integer code;
     /**
      * 返回错误信息
      */
@@ -30,18 +31,22 @@ public class ApiResponse<T> {
     @ApiModelProperty("返回对象")
     private T data;
 
-    public ApiResponse(String code, String text, T data) {
+    public ApiResponse(Integer code, String text, T data) {
         this.code = code;
         this.text = text;
         this.data = data;
     }
 
-    public static <T> ApiResponse<T> of(String code, String text, T data) {
+    public static <T> ApiResponse<T> of(Integer code, String text, T data) {
         return new ApiResponse(code, text, data);
     }
 
-    public static ApiResponse<String> error(String code, String text) {
+    public static ApiResponse<String> error(Integer code, String text) {
         return of(code, text, Constant.FAIL_MSG);
+    }
+
+    public static ApiResponse<String> error(String code, String text) {
+        return of(Integer.valueOf(code), text, Constant.FAIL_MSG);
     }
 
     public static ApiResponse<String> error(String text) {
